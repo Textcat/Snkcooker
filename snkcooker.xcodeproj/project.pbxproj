@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1819119A1FE67CD500678555 /* genPostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181911991FE67CD500678555 /* genPostData.swift */; };
 		18FBF96B1FE5258F00EC2041 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FBF96A1FE5258F00EC2041 /* AppDelegate.swift */; };
 		18FBF96D1FE5258F00EC2041 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FBF96C1FE5258F00EC2041 /* ViewController.swift */; };
 		18FBF96F1FE5258F00EC2041 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18FBF96E1FE5258F00EC2041 /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		181911991FE67CD500678555 /* genPostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = genPostData.swift; sourceTree = "<group>"; };
 		18FBF9671FE5258F00EC2041 /* snkcooker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = snkcooker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18FBF96A1FE5258F00EC2041 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18FBF96C1FE5258F00EC2041 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -38,6 +40,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1819119B1FE681C700678555 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		18FBF95E1FE5258E00EC2041 = {
 			isa = PBXGroup;
 			children = (
@@ -57,6 +66,7 @@
 		18FBF9691FE5258F00EC2041 /* snkcooker */ = {
 			isa = PBXGroup;
 			children = (
+				1819119B1FE681C700678555 /* Models */,
 				18FBF97C1FE5831F00EC2041 /* Views */,
 				18FBF97B1FE5830300EC2041 /* Controllers */,
 				18FBF97A1FE582BF00EC2041 /* Service */,
@@ -73,6 +83,7 @@
 			children = (
 				18FBF97D1FE5838600EC2041 /* captchaSolver.swift */,
 				18FBF9801FE6332A00EC2041 /* Utility.swift */,
+				181911991FE67CD500678555 /* genPostData.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -167,6 +178,7 @@
 				18FBF9811FE6332A00EC2041 /* Utility.swift in Sources */,
 				18FBF96D1FE5258F00EC2041 /* ViewController.swift in Sources */,
 				18FBF96B1FE5258F00EC2041 /* AppDelegate.swift in Sources */,
+				1819119A1FE67CD500678555 /* genPostData.swift in Sources */,
 				18FBF97E1FE5838600EC2041 /* captchaSolver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
