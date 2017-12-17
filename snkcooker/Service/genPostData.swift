@@ -34,6 +34,7 @@ public func genShippingData(with auth_token:String) -> [String:Any] {
     return data_to_post
 }
 
+
 public func genBillingData(with auth_token:String, sValue:String, price:String, payment_gateway:String) -> [String:Any]{
     var data_to_post = [String:Any]()
     data_to_post["utf8"] = "✓"
@@ -65,3 +66,37 @@ public func genBillingData(with auth_token:String, sValue:String, price:String, 
     
     return data_to_post
 }
+
+public func genShipMethodData(auth_token:String, ship_method:String) -> [String:Any] {
+    var data_to_post = [String:Any]()
+    
+    data_to_post["utf8"] = "✓"
+    data_to_post["_method"] = "patch"
+    data_to_post["authenticity_token"] = auth_token
+    data_to_post["previous_step"] = "shipping_method"
+    data_to_post["step"] = "payment_method"
+    data_to_post["checkout[shipping_rate][id]"] = ship_method
+    data_to_post["button"] = ""
+    data_to_post["checkout[client_details][browser_width]"] = "1170"
+    data_to_post["checkout[client_details][browser_height]"] = "711"
+    data_to_post["checkout[client_details][javascript_enabled]"] = "1"
+    
+    return data_to_post
+}
+
+public func genCreditInfoData() -> [String:Any]{
+    var credit_info = [String:Any]()
+    var data_to_post = [String:Any]()
+    
+    credit_info["number"] = ""
+    credit_info["name"] = ""
+    credit_info["month"] = ""
+    credit_info["year"] = ""
+    credit_info["verification_value"] = ""
+    
+    data_to_post["credit_card"] = credit_info
+    
+    return data_to_post
+}
+
+//TODO generateStoreItems

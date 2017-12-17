@@ -6,6 +6,74 @@
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <scenes>
+        <!--Window Controller-->
+        <scene sceneID="EtV-Me-RGa">
+            <objects>
+                <windowController id="Wsr-Ru-NFK" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="H5L-OD-eqE">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="245" y="301" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <connections>
+                            <outlet property="delegate" destination="Wsr-Ru-NFK" id="Rak-Cu-PZS"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="6tQ-b6-cUt" kind="relationship" relationship="window.shadowedContentViewController" id="dJa-gE-dmK"/>
+                    </connections>
+                </windowController>
+                <customObject id="svf-oY-qJq" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-517" y="-277"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="yd3-tm-Ost">
+            <objects>
+                <viewController id="6tQ-b6-cUt" sceneMemberID="viewController">
+                    <view key="view" id="QMk-Of-OJ1">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="7oo-rN-yzG" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-517" y="192"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="RpR-Kn-UcH">
+            <objects>
+                <windowController id="1nL-Xb-1yJ" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="qgA-hK-zsV">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="245" y="301" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <connections>
+                            <outlet property="delegate" destination="1nL-Xb-1yJ" id="n33-LG-0Qv"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="lyI-9h-dde" kind="relationship" relationship="window.shadowedContentViewController" id="wEP-SM-F1s"/>
+                    </connections>
+                </windowController>
+                <customObject id="OF5-9E-25v" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="55" y="-277"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="tmW-DW-LiL">
+            <objects>
+                <viewController id="lyI-9h-dde" sceneMemberID="viewController">
+                    <view key="view" id="oZf-V4-YN1">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="hQ2-Sg-lSD" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="55" y="192"/>
+        </scene>
         <!--Application-->
         <scene sceneID="JPo-4y-FX3">
             <objects>
@@ -62,12 +130,21 @@
                                     <items>
                                         <menuItem title="Captcha Setup" id="vO3-1F-33Z">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <segue destination="Wsr-Ru-NFK" kind="show" id="t0N-xK-uAa"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem title="Proxies" id="TW2-eY-iM9">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <segue destination="1nL-Xb-1yJ" kind="show" id="hVT-43-tk1"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem title="Payment information" id="e3Y-3H-Tr3">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <segue destination="P8T-m7-XYw" kind="show" id="V3u-aP-Waq"/>
+                                            </connections>
                                         </menuItem>
                                     </items>
                                 </menu>
@@ -119,7 +196,7 @@
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="0.0"/>
+            <point key="canvasLocation" x="84" y="-743"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -140,7 +217,41 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="85" y="245"/>
+            <point key="canvasLocation" x="85" y="579"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="lgP-MT-2tA">
+            <objects>
+                <windowController id="P8T-m7-XYw" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="1Cw-Xv-sXY">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="245" y="301" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <connections>
+                            <outlet property="delegate" destination="P8T-m7-XYw" id="hfZ-Ks-c3a"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="nek-np-FIu" kind="relationship" relationship="window.shadowedContentViewController" id="0Hv-r1-qeA"/>
+                    </connections>
+                </windowController>
+                <customObject id="QNa-sG-prW" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="642" y="-277"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="gDF-fG-God">
+            <objects>
+                <viewController id="nek-np-FIu" sceneMemberID="viewController">
+                    <view key="view" id="heg-00-VGn">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="kMy-Kj-qts" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="642" y="192"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
@@ -651,7 +762,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="85" y="893"/>
+            <point key="canvasLocation" x="85" y="1170"/>
         </scene>
     </scenes>
 </document>

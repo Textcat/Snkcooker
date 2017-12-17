@@ -8,16 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		1819119A1FE67CD500678555 /* genPostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181911991FE67CD500678555 /* genPostData.swift */; };
+		1819119E1FE6C8BF00678555 /* shopifyBot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1819119D1FE6C8BF00678555 /* shopifyBot.swift */; };
+		181911A01FE6C9B500678555 /* models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1819119F1FE6C9B500678555 /* models.swift */; };
 		18FBF96B1FE5258F00EC2041 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FBF96A1FE5258F00EC2041 /* AppDelegate.swift */; };
 		18FBF96D1FE5258F00EC2041 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FBF96C1FE5258F00EC2041 /* ViewController.swift */; };
 		18FBF96F1FE5258F00EC2041 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18FBF96E1FE5258F00EC2041 /* Assets.xcassets */; };
 		18FBF9721FE5258F00EC2041 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18FBF9701FE5258F00EC2041 /* Main.storyboard */; };
 		18FBF97E1FE5838600EC2041 /* captchaSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FBF97D1FE5838600EC2041 /* captchaSolver.swift */; };
-		18FBF9811FE6332A00EC2041 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FBF9801FE6332A00EC2041 /* Utility.swift */; };
+		18FBF9811FE6332A00EC2041 /* utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FBF9801FE6332A00EC2041 /* utility.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		181911991FE67CD500678555 /* genPostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = genPostData.swift; sourceTree = "<group>"; };
+		1819119D1FE6C8BF00678555 /* shopifyBot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shopifyBot.swift; sourceTree = "<group>"; };
+		1819119F1FE6C9B500678555 /* models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = models.swift; sourceTree = "<group>"; };
 		18FBF9671FE5258F00EC2041 /* snkcooker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = snkcooker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18FBF96A1FE5258F00EC2041 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18FBF96C1FE5258F00EC2041 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -26,7 +30,7 @@
 		18FBF9731FE5258F00EC2041 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18FBF9741FE5258F00EC2041 /* snkcooker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = snkcooker.entitlements; sourceTree = "<group>"; };
 		18FBF97D1FE5838600EC2041 /* captchaSolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = captchaSolver.swift; sourceTree = "<group>"; };
-		18FBF9801FE6332A00EC2041 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		18FBF9801FE6332A00EC2041 /* utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utility.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,8 +47,16 @@
 		1819119B1FE681C700678555 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1819119F1FE6C9B500678555 /* models.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		1819119C1FE6C40300678555 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Test;
 			sourceTree = "<group>";
 		};
 		18FBF95E1FE5258E00EC2041 = {
@@ -70,6 +82,7 @@
 				18FBF97C1FE5831F00EC2041 /* Views */,
 				18FBF97B1FE5830300EC2041 /* Controllers */,
 				18FBF97A1FE582BF00EC2041 /* Service */,
+				1819119C1FE6C40300678555 /* Test */,
 				18FBF96A1FE5258F00EC2041 /* AppDelegate.swift */,
 				18FBF96E1FE5258F00EC2041 /* Assets.xcassets */,
 				18FBF9731FE5258F00EC2041 /* Info.plist */,
@@ -82,8 +95,9 @@
 			isa = PBXGroup;
 			children = (
 				18FBF97D1FE5838600EC2041 /* captchaSolver.swift */,
-				18FBF9801FE6332A00EC2041 /* Utility.swift */,
+				18FBF9801FE6332A00EC2041 /* utility.swift */,
 				181911991FE67CD500678555 /* genPostData.swift */,
+				1819119D1FE6C8BF00678555 /* shopifyBot.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -175,7 +189,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18FBF9811FE6332A00EC2041 /* Utility.swift in Sources */,
+				181911A01FE6C9B500678555 /* models.swift in Sources */,
+				1819119E1FE6C8BF00678555 /* shopifyBot.swift in Sources */,
+				18FBF9811FE6332A00EC2041 /* utility.swift in Sources */,
 				18FBF96D1FE5258F00EC2041 /* ViewController.swift in Sources */,
 				18FBF96B1FE5258F00EC2041 /* AppDelegate.swift in Sources */,
 				1819119A1FE67CD500678555 /* genPostData.swift in Sources */,
