@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ShopifyBot {
+public class ShopifyBot {
     let base_url:String
     let quantity:Int
     let size:Double
@@ -24,7 +24,7 @@ class ShopifyBot {
         self.size = target.size
         self.autoCheckout = autoCheckout
         
-        self.session = URLSession()
+        self.session = URLSession(configuration: .default)
 
     }
 
@@ -42,6 +42,7 @@ class ShopifyBot {
         let request_url = URL(string: "\(product_url).json")
         
         let task = self.session.dataTask(with: request_url!) {(data,response,error) in
+            
             if let data=data {
                 do {
                     let object = try JSONSerialization.jsonObject(with: data, options: [])

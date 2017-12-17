@@ -10,6 +10,8 @@
 		1819119A1FE67CD500678555 /* genPostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181911991FE67CD500678555 /* genPostData.swift */; };
 		1819119E1FE6C8BF00678555 /* shopifyBot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1819119D1FE6C8BF00678555 /* shopifyBot.swift */; };
 		181911A01FE6C9B500678555 /* models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1819119F1FE6C9B500678555 /* models.swift */; };
+		181911AA1FE6FE9100678555 /* snkcookerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181911A91FE6FE9100678555 /* snkcookerTests.swift */; };
+		181911B21FE7092A00678555 /* UITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181911B11FE7092A00678555 /* UITest.swift */; };
 		18FBF96B1FE5258F00EC2041 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FBF96A1FE5258F00EC2041 /* AppDelegate.swift */; };
 		18FBF96D1FE5258F00EC2041 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FBF96C1FE5258F00EC2041 /* ViewController.swift */; };
 		18FBF96F1FE5258F00EC2041 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18FBF96E1FE5258F00EC2041 /* Assets.xcassets */; };
@@ -18,10 +20,24 @@
 		18FBF9811FE6332A00EC2041 /* utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FBF9801FE6332A00EC2041 /* utility.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		181911AC1FE6FE9100678555 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18FBF95F1FE5258E00EC2041 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 18FBF9661FE5258E00EC2041;
+			remoteInfo = snkcooker;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		181911991FE67CD500678555 /* genPostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = genPostData.swift; sourceTree = "<group>"; };
 		1819119D1FE6C8BF00678555 /* shopifyBot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shopifyBot.swift; sourceTree = "<group>"; };
 		1819119F1FE6C9B500678555 /* models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = models.swift; sourceTree = "<group>"; };
+		181911A71FE6FE9100678555 /* snkcookerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = snkcookerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		181911A91FE6FE9100678555 /* snkcookerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = snkcookerTests.swift; sourceTree = "<group>"; };
+		181911AB1FE6FE9100678555 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		181911B11FE7092A00678555 /* UITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITest.swift; sourceTree = "<group>"; };
 		18FBF9671FE5258F00EC2041 /* snkcooker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = snkcooker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18FBF96A1FE5258F00EC2041 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18FBF96C1FE5258F00EC2041 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -34,6 +50,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		181911A41FE6FE9100678555 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		18FBF9641FE5258E00EC2041 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -52,10 +75,21 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		181911A81FE6FE9100678555 /* snkcookerTests */ = {
+			isa = PBXGroup;
+			children = (
+				181911B11FE7092A00678555 /* UITest.swift */,
+				181911A91FE6FE9100678555 /* snkcookerTests.swift */,
+				181911AB1FE6FE9100678555 /* Info.plist */,
+			);
+			path = snkcookerTests;
+			sourceTree = "<group>";
+		};
 		18FBF95E1FE5258E00EC2041 = {
 			isa = PBXGroup;
 			children = (
 				18FBF9691FE5258F00EC2041 /* snkcooker */,
+				181911A81FE6FE9100678555 /* snkcookerTests */,
 				18FBF9681FE5258F00EC2041 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				18FBF9671FE5258F00EC2041 /* snkcooker.app */,
+				181911A71FE6FE9100678555 /* snkcookerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -113,6 +148,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		181911A61FE6FE9100678555 /* snkcookerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 181911AE1FE6FE9100678555 /* Build configuration list for PBXNativeTarget "snkcookerTests" */;
+			buildPhases = (
+				181911A31FE6FE9100678555 /* Sources */,
+				181911A41FE6FE9100678555 /* Frameworks */,
+				181911A51FE6FE9100678555 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				181911AD1FE6FE9100678555 /* PBXTargetDependency */,
+			);
+			name = snkcookerTests;
+			productName = snkcookerTests;
+			productReference = 181911A71FE6FE9100678555 /* snkcookerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		18FBF9661FE5258E00EC2041 /* snkcooker */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 18FBF9771FE5258F00EC2041 /* Build configuration list for PBXNativeTarget "snkcooker" */;
@@ -140,6 +193,11 @@
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = luiyezheng;
 				TargetAttributes = {
+					181911A61FE6FE9100678555 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 18FBF9661FE5258E00EC2041;
+					};
 					18FBF9661FE5258E00EC2041 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
@@ -160,11 +218,19 @@
 			projectRoot = "";
 			targets = (
 				18FBF9661FE5258E00EC2041 /* snkcooker */,
+				181911A61FE6FE9100678555 /* snkcookerTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		181911A51FE6FE9100678555 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		18FBF9651FE5258E00EC2041 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -177,6 +243,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		181911A31FE6FE9100678555 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				181911AA1FE6FE9100678555 /* snkcookerTests.swift in Sources */,
+				181911B21FE7092A00678555 /* UITest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		18FBF9631FE5258E00EC2041 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -193,6 +268,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		181911AD1FE6FE9100678555 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 18FBF9661FE5258E00EC2041 /* snkcooker */;
+			targetProxy = 181911AC1FE6FE9100678555 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		18FBF9701FE5258F00EC2041 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -205,6 +288,36 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		181911AF1FE6FE9100678555 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = snkcookerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = luiyezheng.snkcookerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/snkcooker.app/Contents/MacOS/snkcooker";
+			};
+			name = Debug;
+		};
+		181911B01FE6FE9100678555 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = snkcookerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = luiyezheng.snkcookerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/snkcooker.app/Contents/MacOS/snkcooker";
+			};
+			name = Release;
+		};
 		18FBF9751FE5258F00EC2041 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -342,6 +455,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		181911AE1FE6FE9100678555 /* Build configuration list for PBXNativeTarget "snkcookerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				181911AF1FE6FE9100678555 /* Debug */,
+				181911B01FE6FE9100678555 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		18FBF9621FE5258E00EC2041 /* Build configuration list for PBXProject "snkcooker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
