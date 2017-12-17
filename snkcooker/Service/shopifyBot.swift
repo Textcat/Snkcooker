@@ -11,7 +11,7 @@ import Foundation
 class ShopifyBot {
     let base_url:String
     let quantity:Int
-    let size:Int
+    let size:Double
     let autoCheckout:Bool
     
     let session:URLSession
@@ -45,13 +45,36 @@ class ShopifyBot {
             if let data=data {
                 do {
                     let object = try JSONSerialization.jsonObject(with: data, options: [])
-                    
-                    
+                    guard let json = object as? [String:Any] else {return}
                     var info = [String:Any]()
+                    guard let product = json["product"] as? [String:Any] else {return}
+                    let name = product["title"]
+                    info["product_name"] = name
+                    guard let variants : Array<Any> = product["variants"] as? Array<Any> else {return}
+                    for variant in variants {
+                        guard let variant = variant as? Dictionary<String, Any> else{return}
+                        guard let size = variant["option1"] as? String else{return}
+                        if self.size == Double(size){
+                            info["storeID"] = variant["id"]
+                            if let quantity = variant["inventory_quantity"] as? Int {
+                                if quantity == 0 {
+                                }
+                                if quantity >= self.quantity {
+                                    info["quantity"] = self.quantity
+                                }else {
+                                    info["quantity"] = quantity
+                                }
+                            }else {
+                                info["quantity"] = 1
+                            }
+                        }
+                    }
+                    print(info)
                 }catch {
                     print(error)
                 }
             }
         }
+        task.resume()
     }
 }

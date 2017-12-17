@@ -52,13 +52,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		1819119C1FE6C40300678555 /* Test */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Test;
-			sourceTree = "<group>";
-		};
 		18FBF95E1FE5258E00EC2041 = {
 			isa = PBXGroup;
 			children = (
@@ -82,7 +75,6 @@
 				18FBF97C1FE5831F00EC2041 /* Views */,
 				18FBF97B1FE5830300EC2041 /* Controllers */,
 				18FBF97A1FE582BF00EC2041 /* Service */,
-				1819119C1FE6C40300678555 /* Test */,
 				18FBF96A1FE5258F00EC2041 /* AppDelegate.swift */,
 				18FBF96E1FE5258F00EC2041 /* Assets.xcassets */,
 				18FBF9731FE5258F00EC2041 /* Info.plist */,

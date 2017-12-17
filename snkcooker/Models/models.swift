@@ -11,5 +11,5 @@ import Foundation
 struct BotTarget {
     let site:String
     var quantity:Int
-    var size:Int
+    var size:Double
 }
