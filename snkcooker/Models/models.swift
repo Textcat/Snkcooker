@@ -9,7 +9,16 @@
 import Foundation
 
 struct BotTarget {
-    let site:String
+    let site:Site
     var quantity:Int
     var size:Double
+}
+
+public enum Site : String {
+    case rockcitykicks = "https://rockcitykicks.com"
+    case exclucitylife = "https://shop.exclucitylife.com"
+    case yeezysupply = "https://yeezysupply.com"
+    case notre = "https://www.notre-shop.com"
+    case bowsandarrows = "https://www.bowsandarrowsberkeley.com"
+    case shoegallerymiami = "https://shoegallerymiami.com"
 }

@@ -13,13 +13,15 @@ public class ShopifyBot {
     let quantity:Int
     let size:Double
     let autoCheckout:Bool
+    let site:Site
     
     let session:URLSession
     var product_url:String?
     var redirected_url:URL?
     
     init(target:BotTarget, autoCheckout:Bool=false) {
-        self.base_url = target.site
+        self.site = target.site
+        self.base_url = target.site.rawValue
         self.quantity = target.quantity
         self.size = target.size
         self.autoCheckout = autoCheckout
