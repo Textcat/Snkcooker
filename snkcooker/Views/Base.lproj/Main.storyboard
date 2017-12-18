@@ -606,28 +606,33 @@
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="3" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D1c-ng-Zgh">
-                                                <rect key="frame" x="234" y="0.0" width="239" height="22"/>
+                                                <rect key="frame" x="234" y="1" width="239" height="21"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yYs-2n-sC1">
-                                                        <rect key="frame" x="-2" y="5" width="40" height="17"/>
+                                                        <rect key="frame" x="-2" y="4" width="40" height="17"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="email:" id="nmE-Cz-eDS">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uPo-fo-AQB">
-                                                        <rect key="frame" x="39" y="0.0" width="200" height="22"/>
+                                                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QIq-Ci-4WJ">
+                                                        <rect key="frame" x="37" y="-3" width="205" height="26"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="200" id="ebf-JL-XcT"/>
-                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="fhi-eT-2qc"/>
+                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="qyO-8d-7Ob"/>
                                                         </constraints>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="PfN-xP-fLz">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
+                                                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="118-Ny-eM5" id="Ldh-HT-PdY">
+                                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="menu"/>
+                                                            <menu key="menu" id="61P-Cc-QR5">
+                                                                <items>
+                                                                    <menuItem title="Item 1" state="on" id="118-Ny-eM5"/>
+                                                                    <menuItem title="Item 2" id="ee2-Uq-lpS"/>
+                                                                    <menuItem title="Item 3" id="fps-ji-jIv"/>
+                                                                </items>
+                                                            </menu>
+                                                        </popUpButtonCell>
+                                                    </popUpButton>
                                                 </subviews>
                                                 <visibilityPriorities>
                                                     <integer value="1000"/>

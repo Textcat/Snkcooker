@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1819119A1FE67CD500678555 /* genPostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181911991FE67CD500678555 /* genPostData.swift */; };
+		1806E2951FE8063300B2CF04 /* userconfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1806E2941FE8063300B2CF04 /* userconfig.plist */; };
 		1819119E1FE6C8BF00678555 /* shopifyBot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1819119D1FE6C8BF00678555 /* shopifyBot.swift */; };
 		181911A01FE6C9B500678555 /* models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1819119F1FE6C9B500678555 /* models.swift */; };
 		181911AA1FE6FE9100678555 /* snkcookerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181911A91FE6FE9100678555 /* snkcookerTests.swift */; };
@@ -31,7 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		181911991FE67CD500678555 /* genPostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = genPostData.swift; sourceTree = "<group>"; };
+		1806E2941FE8063300B2CF04 /* userconfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = userconfig.plist; sourceTree = "<group>"; };
 		1819119D1FE6C8BF00678555 /* shopifyBot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shopifyBot.swift; sourceTree = "<group>"; };
 		1819119F1FE6C9B500678555 /* models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = models.swift; sourceTree = "<group>"; };
 		181911A71FE6FE9100678555 /* snkcookerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = snkcookerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,6 +67,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1806E2931FE8059A00B2CF04 /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				1806E2941FE8063300B2CF04 /* userconfig.plist */,
+			);
+			path = Document;
+			sourceTree = "<group>";
+		};
 		1819119B1FE681C700678555 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -110,9 +118,10 @@
 				18FBF97C1FE5831F00EC2041 /* Views */,
 				18FBF97B1FE5830300EC2041 /* Controllers */,
 				18FBF97A1FE582BF00EC2041 /* Service */,
+				1806E2931FE8059A00B2CF04 /* Document */,
 				18FBF96A1FE5258F00EC2041 /* AppDelegate.swift */,
-				18FBF96E1FE5258F00EC2041 /* Assets.xcassets */,
 				18FBF9731FE5258F00EC2041 /* Info.plist */,
+				18FBF96E1FE5258F00EC2041 /* Assets.xcassets */,
 				18FBF9741FE5258F00EC2041 /* snkcooker.entitlements */,
 			);
 			path = snkcooker;
@@ -123,7 +132,6 @@
 			children = (
 				18FBF97D1FE5838600EC2041 /* captchaSolver.swift */,
 				18FBF9801FE6332A00EC2041 /* utility.swift */,
-				181911991FE67CD500678555 /* genPostData.swift */,
 				1819119D1FE6C8BF00678555 /* shopifyBot.swift */,
 			);
 			path = Service;
@@ -235,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1806E2951FE8063300B2CF04 /* userconfig.plist in Resources */,
 				18FBF96F1FE5258F00EC2041 /* Assets.xcassets in Resources */,
 				18FBF9721FE5258F00EC2041 /* Main.storyboard in Resources */,
 			);
@@ -261,7 +270,6 @@
 				18FBF9811FE6332A00EC2041 /* utility.swift in Sources */,
 				18FBF96D1FE5258F00EC2041 /* ViewController.swift in Sources */,
 				18FBF96B1FE5258F00EC2041 /* AppDelegate.swift in Sources */,
-				1819119A1FE67CD500678555 /* genPostData.swift in Sources */,
 				18FBF97E1FE5838600EC2041 /* captchaSolver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
