@@ -202,7 +202,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="IQv-IB-iLA">
+                    <window key="window" title="snkcooker" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="218" width="501" height="292"/>
@@ -223,7 +223,7 @@
         <scene sceneID="lgP-MT-2tA">
             <objects>
                 <windowController id="P8T-m7-XYw" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" id="1Cw-Xv-sXY">
+                    <window key="window" title="payment configuration" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="1Cw-Xv-sXY">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="245" y="301" width="480" height="270"/>
@@ -240,10 +240,10 @@
             </objects>
             <point key="canvasLocation" x="642" y="-277"/>
         </scene>
-        <!--Userconfig View Controller-->
+        <!--payment configuration-->
         <scene sceneID="gDF-fG-God">
             <objects>
-                <viewController id="nek-np-FIu" customClass="UserconfigViewController" customModule="snkcooker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="payment configuration" id="nek-np-FIu" customClass="UserconfigViewController" customModule="snkcooker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="heg-00-VGn">
                         <rect key="frame" x="0.0" y="0.0" width="551" height="668"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -285,7 +285,7 @@
                                 <rect key="frame" x="12" y="364" width="214" height="262"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="50a-4W-0rT">
-                                        <rect key="frame" x="0.0" y="240" width="168" height="22"/>
+                                        <rect key="frame" x="0.0" y="240" width="122" height="22"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pSk-8G-Tkc">
                                                 <rect key="frame" x="-2" y="2" width="68" height="17"/>
@@ -296,7 +296,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ixr-oc-TBs">
-                                                <rect key="frame" x="72" y="0.0" width="96" height="22"/>
+                                                <rect key="frame" x="72" y="0.0" width="50" height="22"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" bezelStyle="round" id="xDb-G4-DFN">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -1020,17 +1020,20 @@
                                 </customSpacing>
                             </stackView>
                             <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bXe-VJ-PUl">
-                                <rect key="frame" x="217" y="34" width="117" height="21"/>
+                                <rect key="frame" x="213" y="34" width="126" height="21"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3gf-hI-00f">
-                                        <rect key="frame" x="-6" y="-7" width="61" height="32"/>
-                                        <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wgI-fM-pxd">
+                                        <rect key="frame" x="-6" y="-7" width="70" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wgI-fM-pxd">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="updateUserConfig:" target="nek-np-FIu" id="VJ4-qt-FEk"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="U44-ym-WdM">
-                                        <rect key="frame" x="51" y="-7" width="72" height="32"/>
+                                        <rect key="frame" x="60" y="-7" width="72" height="32"/>
                                         <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cEJ-Qj-fWy">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -1084,6 +1087,10 @@
                         <outlet property="billPhone" destination="Kjc-N7-Z0F" id="GlI-LK-lta"/>
                         <outlet property="billProvince" destination="gS6-T4-Ixt" id="dGQ-sh-f6r"/>
                         <outlet property="billZip" destination="qXf-m8-Fyg" id="CL1-sV-TTB"/>
+                        <outlet property="cardNumber" destination="6k3-5l-EFd" id="p90-f8-nQa"/>
+                        <outlet property="cvv" destination="afS-8e-f99" id="y68-LS-nGS"/>
+                        <outlet property="expireData" destination="dPX-ie-ynf" id="9c8-sa-yCI"/>
+                        <outlet property="nameOnCard" destination="fdo-uh-9cJ" id="fOw-So-GlI"/>
                         <outlet property="shipAddress1" destination="sfy-s8-tYx" id="AfG-cf-MHL"/>
                         <outlet property="shipAddress2" destination="ChB-uq-iSc" id="93A-WN-UYY"/>
                         <outlet property="shipCity" destination="Nyl-se-uoQ" id="rmo-Ie-SbE"/>
@@ -1097,12 +1104,12 @@
                 </viewController>
                 <customObject id="kMy-Kj-qts" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="643" y="391"/>
+            <point key="canvasLocation" x="642.5" y="391"/>
         </scene>
-        <!--Main View Controller-->
+        <!--snkcooker-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="MainViewController" customModule="snkcooker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="snkcooker" id="XfG-lQ-9wD" customClass="MainViewController" customModule="snkcooker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="1221" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>

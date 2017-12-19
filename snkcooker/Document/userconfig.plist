@@ -8,7 +8,19 @@
 	<array/>
 	<key>ShippingAddress</key>
 	<dict>
-		<key>a</key>
+		<key>phone</key>
+		<string></string>
+		<key>zip</key>
+		<string></string>
+		<key>province</key>
+		<string></string>
+		<key>country</key>
+		<string></string>
+		<key>city</key>
+		<string></string>
+		<key>address2</key>
+		<string></string>
+		<key>address1</key>
 		<string></string>
 		<key>lastName</key>
 		<string></string>
@@ -16,6 +28,15 @@
 		<string></string>
 	</dict>
 	<key>PaymentCardInfo</key>
-	<dict/>
+	<dict>
+		<key>cvv</key>
+		<string></string>
+		<key>expireData</key>
+		<string></string>
+		<key>nameOnCard</key>
+		<string></string>
+		<key>cardNumber</key>
+		<string></string>
+	</dict>
 </dict>
 </plist>
