@@ -2,10 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BillingAddress</key>
+	<dict/>
 	<key>Emails</key>
 	<array/>
 	<key>ShippingAddress</key>
-	<dict/>
+	<dict>
+		<key>a</key>
+		<string></string>
+		<key>lastName</key>
+		<string></string>
+		<key>firstName</key>
+		<string></string>
+	</dict>
 	<key>PaymentCardInfo</key>
 	<dict/>
 </dict>

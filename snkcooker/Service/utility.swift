@@ -33,7 +33,7 @@ internal func += <K, V> (left: inout [K:V], right: [K:V]) {
 
 
 internal class PlistDicManager{
-    static func readPlistObject(with key:String) -> Any?{
+    static func readPlistObject(withkey key:String) -> Any?{
         let path = NSHomeDirectory()+"/snkcooker/userconfig.plist"
         guard let dict = NSMutableDictionary(contentsOfFile: path) else {return nil}
         guard let object = dict[key] else {return nil}
@@ -52,7 +52,7 @@ internal class PlistDicManager{
     
     
     static func updatePlistObject(forKey key:String, process:(_ object:Any) -> Any?) {
-        if let object = self.readPlistObject(with: key){
+        if let object = self.readPlistObject(withkey: key){
             if let newObject = process(object) {
                 self.writePlistObject(object: newObject, forKey: key)
             }

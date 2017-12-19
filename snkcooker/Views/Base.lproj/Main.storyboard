@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="XfG-lQ-9wD">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -240,10 +240,10 @@
             </objects>
             <point key="canvasLocation" x="642" y="-277"/>
         </scene>
-        <!--View Controller-->
+        <!--Userconfig View Controller-->
         <scene sceneID="gDF-fG-God">
             <objects>
-                <viewController id="nek-np-FIu" sceneMemberID="viewController">
+                <viewController id="nek-np-FIu" customClass="UserconfigViewController" customModule="snkcooker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="heg-00-VGn">
                         <rect key="frame" x="0.0" y="0.0" width="551" height="668"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1074,15 +1074,35 @@
                             <constraint firstItem="iEJ-qo-nLq" firstAttribute="leading" secondItem="heg-00-VGn" secondAttribute="leading" constant="10" id="v45-vi-i0K"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="billAddress1" destination="m6p-Hr-b0b" id="U3Q-JQ-Hm5"/>
+                        <outlet property="billAddress2" destination="yAn-TC-lNM" id="ULd-0A-Crb"/>
+                        <outlet property="billCity" destination="I9i-GF-zNo" id="TJx-GF-5tz"/>
+                        <outlet property="billCountry" destination="mRg-TA-hed" id="ycJ-Cv-cOk"/>
+                        <outlet property="billFirstName" destination="HAl-cJ-ZwP" id="mEX-Rj-Cd3"/>
+                        <outlet property="billLastName" destination="vHu-Ts-gli" id="wQS-sw-CQJ"/>
+                        <outlet property="billPhone" destination="Kjc-N7-Z0F" id="GlI-LK-lta"/>
+                        <outlet property="billProvince" destination="gS6-T4-Ixt" id="dGQ-sh-f6r"/>
+                        <outlet property="billZip" destination="qXf-m8-Fyg" id="CL1-sV-TTB"/>
+                        <outlet property="shipAddress1" destination="sfy-s8-tYx" id="AfG-cf-MHL"/>
+                        <outlet property="shipAddress2" destination="ChB-uq-iSc" id="93A-WN-UYY"/>
+                        <outlet property="shipCity" destination="Nyl-se-uoQ" id="rmo-Ie-SbE"/>
+                        <outlet property="shipCountry" destination="GZK-Pw-3L0" id="FTY-GQ-l58"/>
+                        <outlet property="shipFirstName" destination="ixr-oc-TBs" id="mgP-Wu-R6Q"/>
+                        <outlet property="shipLastName" destination="Gyw-p8-XpY" id="6gz-Kk-GES"/>
+                        <outlet property="shipPhone" destination="jNo-74-CvH" id="3eM-gh-FXT"/>
+                        <outlet property="shipProvince" destination="gAr-HM-vVU" id="DrG-rK-XS9"/>
+                        <outlet property="shipZip" destination="7eQ-pn-17h" id="cnB-BW-zNL"/>
+                    </connections>
                 </viewController>
                 <customObject id="kMy-Kj-qts" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="643" y="391"/>
         </scene>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="snkcooker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="MainViewController" customModule="snkcooker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="1221" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
