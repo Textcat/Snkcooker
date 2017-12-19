@@ -45,14 +45,14 @@ internal class PlistDicManager{
     static func writePlistObject(object:Any,forKey:String) {
         let path = NSHomeDirectory()+"/snkcooker/userconfig.plist"
         let dict = NSMutableDictionary(contentsOfFile: path)
-
+        
         dict?.setValue(object, forKey: forKey)
         dict?.write(toFile: path, atomically: true)
     }
     
     
     static func updatePlistObject(forKey key:String, process:(_ object:Any) -> Any?) {
-        if let object = self.readPlistObject(with: key) {
+        if let object = self.readPlistObject(with: key){
             if let newObject = process(object) {
                 self.writePlistObject(object: newObject, forKey: key)
             }
