@@ -82,6 +82,7 @@ class UserconfigViewController: NSViewController {
         if let cvvNum = creditInfoDic["cvv"] {cvv.stringValue = cvvNum} else {cvv.stringValue = ""}
     }
     
+    
     private func updateShipAddress() {
         PlistDicManager.updatePlistObject(forKey:"ShippingAddress") {object in
             let dict = NSMutableDictionary()
