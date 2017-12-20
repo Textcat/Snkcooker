@@ -1691,17 +1691,14 @@
                                                         <constraints>
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="GkX-TG-QPl"/>
                                                         </constraints>
-                                                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Ooe-jl-ahK" id="ggU-nT-pTn">
-                                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ggU-nT-pTn">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="menu"/>
-                                                            <menu key="menu" id="rk6-Ag-gLl">
-                                                                <items>
-                                                                    <menuItem title="Item 1" state="on" id="Ooe-jl-ahK"/>
-                                                                    <menuItem title="Item 2" id="52X-XL-TnG"/>
-                                                                    <menuItem title="Item 3" id="CBa-hA-GgT"/>
-                                                                </items>
-                                                            </menu>
+                                                            <menu key="menu" id="rk6-Ag-gLl"/>
                                                         </popUpButtonCell>
+                                                        <connections>
+                                                            <action selector="sendSelectedSite:" target="XfG-lQ-9wD" id="Ro0-Q3-gO4"/>
+                                                        </connections>
                                                     </popUpButton>
                                                 </subviews>
                                                 <visibilityPriorities>
@@ -1761,16 +1758,10 @@
                                                         <constraints>
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="qyO-8d-7Ob"/>
                                                         </constraints>
-                                                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="118-Ny-eM5" id="Ldh-HT-PdY">
+                                                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="Ldh-HT-PdY">
                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="menu"/>
-                                                            <menu key="menu" id="61P-Cc-QR5">
-                                                                <items>
-                                                                    <menuItem title="Item 1" state="on" id="118-Ny-eM5"/>
-                                                                    <menuItem title="Item 2" id="ee2-Uq-lpS"/>
-                                                                    <menuItem title="Item 3" id="fps-ji-jIv"/>
-                                                                </items>
-                                                            </menu>
+                                                            <menu key="menu" id="61P-Cc-QR5"/>
                                                         </popUpButtonCell>
                                                     </popUpButton>
                                                 </subviews>
@@ -1914,6 +1905,10 @@
                             <constraint firstAttribute="bottom" secondItem="tE0-AI-O0B" secondAttribute="bottom" constant="3" id="yeg-pj-kwc"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="emailSelector" destination="QIq-Ci-4WJ" id="RZd-X7-J0F"/>
+                        <outlet property="siteSelector" destination="PZY-G7-0P3" id="8Gh-Xb-6LO"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

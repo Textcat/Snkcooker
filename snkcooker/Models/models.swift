@@ -32,4 +32,9 @@ public enum Site : String {
     case notre = "https://www.notre-shop.com"
     case bowsandarrows = "https://www.bowsandarrowsberkeley.com"
     case shoegallerymiami = "https://shoegallerymiami.com"
+    case shopnicekicks = "https://shopnicekicks.com"
+    case deadstock = "https://www.deadstock.ca"
+    case apbstore = "https://www.apbstore.com"
+    case socialstatuspgh = "https://www.socialstatuspgh.com"
+    case a_ma_maniere = "https://www.a-ma-maniere.com"
 }
