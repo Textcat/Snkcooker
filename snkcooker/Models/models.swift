@@ -14,6 +14,17 @@ struct BotTarget {
     var size:Double
 }
 
+typealias emails = [Dictionary<String, String>]
+
+struct EmailsData {
+    var values:emails
+    
+    init() {
+        let array = PlistDicManager.readPlistObject(withkey: "Emails") as! emails
+        self.values = array
+    }
+}
+
 public enum Site : String {
     case rockcitykicks = "https://rockcitykicks.com"
     case exclucitylife = "https://shop.exclucitylife.com"

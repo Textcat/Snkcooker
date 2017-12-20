@@ -34,12 +34,54 @@ class UserconfigViewController: NSViewController {
     @IBOutlet var expireData: NSTextField!
     @IBOutlet var cvv: NSTextField!
     
+    @IBOutlet var emailTableView: NSTableView!
+    
+    var emailData:emails?
+    
     override func viewDidLoad() {
         PlistDicManager.checkExist()
         self.loadUserConfig()
+        
+        self.emailTableView.delegate = self
+        self.emailTableView.dataSource = self
+        self.emailData = EmailsData().values
+        self.emailTableView.reloadData()
+        
         super.viewDidLoad()
 
         // Do view setup here.
+    }
+    
+    @IBAction func addressEndediting(_ sender: NSTextField) {
+        let row = emailTableView.row(for: sender)
+        
+        if var data = self.emailData {
+            data[row]["address"] = sender.stringValue
+            self.emailData = data
+            }
+    }
+    
+    @IBAction func abbrEndediting(_ sender: NSTextField) {
+        let row = emailTableView.row(for: sender)
+        
+        if var data = self.emailData {
+            data[row]["abbr"] = sender.stringValue
+            self.emailData = data
+        }
+    }
+    
+    
+    @IBAction func emailAddandRemove(_ sender: NSSegmentedCell) {
+        let tag = sender.selectedSegment
+        if tag == 0 {
+            self.emailData?.append(["abbr":"","address":""])
+            self.emailTableView.reloadData()
+            
+        }else {
+            let selectedRow = self.emailTableView.selectedRow
+            self.emailData?.remove(at: selectedRow)
+            self.emailTableView.reloadData()
+        }
     }
     
     
@@ -47,7 +89,7 @@ class UserconfigViewController: NSViewController {
         self.updateCreditInfo()
         self.updateBillAddress()
         self.updateShipAddress()
-        
+        self.updateEmails()
     }
     
     
@@ -132,6 +174,56 @@ class UserconfigViewController: NSViewController {
         }
     }
     
+    private func updateEmails() {
+        let newData = self.emailData?.filter({$0["abbr"] != "" && $0["address"] != ""})
+        PlistDicManager.updatePlistObject(forKey: "Emails") {object in
+            return newData
+        }
+    }
+}
+
+
+extension UserconfigViewController:NSTableViewDelegate, NSTableViewDataSource {
+    private enum CellIdentifiers {
+        static let abbrCell = "abbrCellID"
+        static let addressCell = "addressCellID"
+    }
     
+    
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        if let data = self.emailData {
+            return data.count
+        }else {
+            return 0
+        }
+    }
+    
+    
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        var text:String = ""
+        var cellIdentity:String = ""
+        guard let item = emailData?[row] else {
+            return nil
+        }
+        
+        if tableColumn == tableView.tableColumns[0] {
+            if let newText = item["abbr"] {
+                text = newText
+                cellIdentity = CellIdentifiers.abbrCell
+            }
+        }else {
+            if let newText = item["address"] {
+                text = newText
+                cellIdentity = CellIdentifiers.addressCell
+            }
+        }
+        
+        if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentity), owner: nil) as? NSTableCellView {
+            
+            cell.textField?.stringValue = text
+            return cell
+        }
+        return nil
+    }
 }
 

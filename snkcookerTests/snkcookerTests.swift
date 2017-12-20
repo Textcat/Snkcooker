@@ -25,10 +25,6 @@ class snkcookerTests: XCTestCase {
     }
     
     func testPlistReader() {
-        let plistPath:String? = Bundle.main.path(forResource: "userconfig", ofType: "plist")!
-        let dict = NSMutableDictionary(contentsOfFile: plistPath!)
-        
-        print(dict)
     }
     
     func testCheckfile() {
