@@ -9,20 +9,26 @@
 import Cocoa
 
 class MainViewController: NSViewController {
-    var emailData:emails?
-    var emailOptions:[String:String] = [:]
+    var emailData:EmailsData?
     
-    @IBOutlet var emailSelector: NSPopUpButton!
+    @IBOutlet var emailComboBox: NSComboBox!
     
     @IBOutlet var siteSelector: NSPopUpButton!
 
     @IBAction func sendSelectedSite(_ sender: NSPopUpButton) {
     }
     
+    override func viewDidAppear() {
+        print("hi there")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.emailComboBox.delegate = self
+        
         self.loadSiteSelector()
-        self.loadEmailSelector()
+        //self.loadEmailSelector()
 
         // Do any additional setup after loading the view.
     }
@@ -33,22 +39,18 @@ class MainViewController: NSViewController {
     }
     
     private func loadEmailSelector() {
-        self.emailData = EmailsData().values
-        if let emails = self.emailData {
-            for email in emails {
-                if let abbr = email["abbr"] {
-                    self.emailSelector.addItem(withTitle: abbr)
-                    self.emailOptions[abbr] = email["address"]
-                }
-            }
-            print(self.emailOptions)
+        self.emailData = EmailsData()
+        if let abbrs = self.emailData?.abbrs {
+            self.emailComboBox.removeAllItems()
+            self.emailComboBox.addItems(withObjectValues: abbrs)
         }
     }
-    
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
-        }
+}
+
+
+extension MainViewController:NSComboBoxDelegate {
+    func comboBoxWillPopUp(_ notification: Notification) {
+        self.loadEmailSelector()
     }
 }
 

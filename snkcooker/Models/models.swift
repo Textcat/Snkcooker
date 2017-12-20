@@ -19,6 +19,27 @@ typealias emails = [Dictionary<String, String>]
 struct EmailsData {
     var values:emails
     
+    var emailOptions:[String:String] {
+        var options:[String:String] = [:]
+        
+        for value in values {
+            if let abbr = value["abbr"] {
+                options[abbr] = value[abbr]
+            }
+        }
+        return options
+    }
+    
+    var abbrs:Array<String> {
+        var abbrs:Array<String> = []
+        for value in values {
+            if let abbr = value["abbr"] {
+                abbrs.append(abbr)
+            }
+        }
+        return abbrs
+    }
+    
     init() {
         let array = PlistDicManager.readPlistObject(withkey: "Emails") as! emails
         self.values = array

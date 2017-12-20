@@ -70,7 +70,6 @@ class UserconfigViewController: NSViewController {
         }
     }
     
-    
     @IBAction func emailAddandRemove(_ sender: NSSegmentedCell) {
         let tag = sender.selectedSegment
         if tag == 0 {
@@ -84,14 +83,12 @@ class UserconfigViewController: NSViewController {
         }
     }
     
-    
     @IBAction func updateUserConfig(_ sender: NSButton) {
         self.updateCreditInfo()
         self.updateBillAddress()
         self.updateShipAddress()
         self.updateEmails()
     }
-    
     
     private func loadUserConfig() {
         let shipAddressDic = PlistDicManager.readPlistObject(withkey: "ShippingAddress") as! [String:String]
@@ -141,7 +138,6 @@ class UserconfigViewController: NSViewController {
             return dict
         }
     }
-    
     
     private func updateBillAddress() {
         PlistDicManager.updatePlistObject(forKey:"BillingAddress") {object in
