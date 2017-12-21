@@ -19,7 +19,7 @@ class MainViewController: NSViewController {
     }
     
     override func viewDidAppear() {
-        print("hi there")
+        
     }
     
     override func viewDidLoad() {

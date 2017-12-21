@@ -10,8 +10,6 @@ import XCTest
 //@testable import snkcooker
 
 class snkcookerTests: XCTestCase {
-    let path = NSHomeDirectory()+"/snkcooker/userconfig.plist"
-    let fileManager = FileManager.default
     
     override func setUp() {
         super.setUp()
@@ -27,38 +25,13 @@ class snkcookerTests: XCTestCase {
     func testPlistReader() {
     }
     
+    
     func testCheckfile() {
-        print(path)
-        if !fileManager.fileExists(atPath: path) {
-            print("File not exist!")
-            
-            do {
-                try fileManager.createDirectory(atPath: NSHomeDirectory()+"/snkcooker", withIntermediateDirectories: true, attributes:nil)
-                
-                let srcPath = Bundle.main.path(forResource: "userconfig", ofType: "plist")
-                
-                do {
-                    //Copy the project plist file to the documents directory.
-                    try fileManager.copyItem(atPath: srcPath!, toPath: path)
-                } catch {
-                    print("File copy error!")
-                }
-            }catch {
-                print("create directory fail")
-            }
-        }
+
     }
     
     func testPlistWriter() {
-        let dict = NSMutableDictionary(contentsOfFile: path)
-        let type = "Emails"
-        
-        var old_emails = dict![type] as! Array<String>
-        
-        old_emails.append("luiyezheng@qq.com")
-        
-        dict?.setValue(old_emails, forKey: "Emails")
-        dict?.write(toFile: path, atomically: true)
+
     }
     
     func testPerformanceExample() {

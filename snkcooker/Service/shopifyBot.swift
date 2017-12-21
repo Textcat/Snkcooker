@@ -40,47 +40,18 @@ public class ShopifyBot {
         self.product_url = product_url
     }
     
-    private func productInfo(product_url:String){
+    private func productInfo(ofProductUrl product_url:String){
         let request_url = URL(string: "\(product_url).json")
         
         let task = self.session.dataTask(with: request_url!) {(data,response,error) in
-            
             if let data=data {
-                do {
-                    let object = try JSONSerialization.jsonObject(with: data, options: [])
-                    guard let json = object as? [String:Any] else {return}
-                    var info = [String:Any]()
-                    guard let product = json["product"] as? [String:Any] else {return}
-                    let name = product["title"]
-                    info["product_name"] = name
-                    guard let variants : Array<Any> = product["variants"] as? Array<Any> else {return}
-                    for variant in variants {
-                        guard let variant = variant as? Dictionary<String, Any> else{return}
-                        guard let size = variant["option1"] as? String else{return}
-                        if self.size == Double(size){
-                            info["storeID"] = variant["id"]
-                            if let quantity = variant["inventory_quantity"] as? Int {
-                                if quantity == 0 {
-                                }
-                                if quantity >= self.quantity {
-                                    info["quantity"] = self.quantity
-                                }else {
-                                    info["quantity"] = quantity
-                                }
-                            }else {
-                                info["quantity"] = 1
-                            }
-                        }
-                    }
-                    print(info)
-                }catch {
-                    print(error)
-                }
+                let info = ProductInfo(data: data,
+                                       wantSize: self.size,
+                                       wantQuantity: self.quantity)
             }
         }
         task.resume()
     }
-    
     
     private func genShippingData(with auth_token:String, ofSite:Site) -> [String:Any] {
         var data_to_post = [String:Any]()
