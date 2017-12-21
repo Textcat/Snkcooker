@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 public class ShopifyBot {
     let base_url:String
@@ -15,7 +16,7 @@ public class ShopifyBot {
     let autoCheckout:Bool
     let site:Site
     
-    let session:URLSession
+    var session:SessionManager?
     var redirected_url:URL?
     
     lazy var postDataManager  = PostData()
@@ -27,7 +28,7 @@ public class ShopifyBot {
         self.autoCheckout = autoCheckout
         
         self.base_url = target.site.rawValue
-        self.session = URLSession(configuration: .default)
+        self.session = SessionManager(configuration:URLSessionConfiguration.ephemeral)
     }
 
     
@@ -37,10 +38,10 @@ public class ShopifyBot {
     
     
     public func cop(withProductUrl product_url:String) {
-        let request_url = URL(string: "\(product_url).json")
-        
-        let task = self.session.dataTask(with: request_url!) {(data,response,error) in
-            if let data=data {
+        guard let request_url = URL(string: "\(product_url).json") else {return}
+        guard let session = self.session else {return}
+        session.request(request_url).responseData {response in
+            if let data=response.data {
                 let info = ProductInfo(data: data,
                                        wantSize: self.size,
                                        wantQuantity: self.quantity)
@@ -49,7 +50,6 @@ public class ShopifyBot {
                 }
             }
         }
-        task.resume()
     }
     
     private func addToCart(productInfo:ProductInfo) {
@@ -58,15 +58,12 @@ public class ShopifyBot {
         let post_url = "\(self.base_url)/cart/add.js"
         
         if let url = URL(string:post_url){
-            let request = Utility.genUrlencodePostRequest(from: url, with: post_data)
-            let task = self.session.dataTask(with: request) {(data,response,error) in
-                if error == nil {
-                    if let httpResponse = response as? HTTPURLResponse ,httpResponse.statusCode == 200{
-                        self.toCheckout()
-                    }
+            guard let session = self.session else {return}
+            session.request(url, method: .post, parameters: post_data).response {response in
+                if response.response?.statusCode == 200 {
+                    self.toCheckout()
                 }
             }
-            task.resume()
         }
     }
     
@@ -74,38 +71,35 @@ public class ShopifyBot {
         let checkOutUrl = "\(self.base_url)/checkout"
         guard let url = URL(string: checkOutUrl) else {return}
         
-        let task = self.session.dataTask(with: url) {(data, response, error) in
-            
-            if error == nil, let data = data, let httpResponse = response as? HTTPURLResponse ,httpResponse.statusCode == 200 {
+        guard let session = self.session else {return}
+        session.request(url).response {response in
+            if response.error == nil, let data = response.data, let httpResponse = response.response ,httpResponse.statusCode == 200 {
                 
                 self.redirected_url = httpResponse.url
                 
                 let urlContent = String(describing: NSString(data: data, encoding: String.Encoding.utf8.rawValue))
                 let authToken = Parser.parse(checkoutPageby: urlContent)
-                print(authToken)
-                print("   ")
                 
                 self.fillShipAddress(auth_token: authToken)
             }
-            
         }
-        task.resume()
     }
     
     private func fillShipAddress(auth_token:String) {
         if let url = self.redirected_url {
             let postData = self.postDataManager.genShippingData(with: auth_token, ofSite: .apbstore)
             
-            let request = Utility.genUrlencodePostRequest(from: url, with: postData)
-            
-            let task = self.session.dataTask(with: request) {(data, response, error) in
-                if error == nil, let data = data, let httpResponse = response as? HTTPURLResponse ,httpResponse.statusCode == 200 {
+            guard let session = self.session else {return}
+            session.request(url, method: .post, parameters: postData).response {response in
+                
+                if response.error == nil, let data = response.data, let httpResponse = response.response ,httpResponse.statusCode == 200 {
                     let urlContent = String(describing: NSString(data: data, encoding: String.Encoding.utf8.rawValue))
                     print(urlContent)
+                    
                 }
+                self.session = nil
             }
-            task.resume()
         }
-        
     }
 }
+
