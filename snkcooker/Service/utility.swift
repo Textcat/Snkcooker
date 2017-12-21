@@ -22,6 +22,17 @@ internal class Utility {
             return nil
         }
     }
+    
+    static func genUrlencodePostRequest(from url:URL, with postData:[String:Any])-> URLRequest {
+        let array:[String] = postData.map {"\(String($0))=\(String(describing: $1))"}
+        let pamaraters = array.joined(separator: "&").data(using: .utf8)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = pamaraters
+        
+        return request
+    }
 }
 
 

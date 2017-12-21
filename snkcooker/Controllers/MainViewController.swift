@@ -24,6 +24,8 @@ class MainViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let newBot = ShopifyBot(target: BotTarget(site: .bowsandarrows, quantity: 1, size: 8.5))
+        newBot.cop(withProductUrl: "https://www.bowsandarrowsberkeley.com/collections/new-releases/products/air-zoom-spiridon-16-white-team-orange-black")
         
         self.emailComboBox.delegate = self
         

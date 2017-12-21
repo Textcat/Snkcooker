@@ -22,8 +22,8 @@ struct ProductInfo {
         let name = product["title"]
         return name as? String
     }
-    var storeID:String?
-    var quantity:Int?
+    var storeID:String = ""
+    var quantity:Int = 0
     
     init(data:Data,wantSize:Double,wantQuantity:Int) {
         do {
@@ -46,7 +46,6 @@ struct ProductInfo {
                         if let invQuantity = variant["inventory_quantity"] as? Int {
                             if invQuantity == 0 {
                                 print("Out of stock")
-                                return
                             }
                             if invQuantity >= wantQuantity {
                                 self.quantity = wantQuantity

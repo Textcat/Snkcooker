@@ -16,7 +16,6 @@ public class ShopifyBot {
     let site:Site
     
     let session:URLSession
-    var product_url:String?
     var redirected_url:URL?
     
     init(target:BotTarget, autoCheckout:Bool=false) {
@@ -27,7 +26,6 @@ public class ShopifyBot {
         self.autoCheckout = autoCheckout
         
         self.session = URLSession(configuration: .default)
-
     }
 
     
@@ -37,10 +35,6 @@ public class ShopifyBot {
     
     
     public func cop(withProductUrl product_url:String) {
-        self.product_url = product_url
-    }
-    
-    private func productInfo(ofProductUrl product_url:String){
         let request_url = URL(string: "\(product_url).json")
         
         let task = self.session.dataTask(with: request_url!) {(data,response,error) in
@@ -48,10 +42,35 @@ public class ShopifyBot {
                 let info = ProductInfo(data: data,
                                        wantSize: self.size,
                                        wantQuantity: self.quantity)
+                if info.quantity != 0 {
+                    self.addToCart(productInfo: info)
+                }
             }
         }
         task.resume()
     }
+    
+    
+    private func addToCart(productInfo:ProductInfo) {
+        print("Start adding to cart...")
+        let name = productInfo.productName
+        let post_data:[String:Any] = ["id":productInfo.storeID, "quantity":productInfo.quantity]
+        let post_url = "\(self.base_url)/cart/add.js"
+        
+        if let url = URL(string:post_url){
+            let request = Utility.genUrlencodePostRequest(from: url, with: post_data)
+            let task = self.session.dataTask(with: request) {(data,response,error) in
+                if error == nil {
+                    if let httpResponse = response as? HTTPURLResponse ,httpResponse.statusCode == 200 {
+                        
+                        
+                    }
+                }
+            }
+            task.resume()
+        }
+    }
+    
     
     private func genShippingData(with auth_token:String, ofSite:Site) -> [String:Any] {
         var data_to_post = [String:Any]()
