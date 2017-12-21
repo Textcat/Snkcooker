@@ -18,14 +18,16 @@ public class ShopifyBot {
     let session:URLSession
     var redirected_url:URL?
     
+    lazy var postDataManager  = PostData()
+    
     init(target:BotTarget, autoCheckout:Bool=false) {
         self.site = target.site
-        self.base_url = target.site.rawValue
         self.quantity = target.quantity
         self.size = target.size
         self.autoCheckout = autoCheckout
         
-        self.session = URLSession(configuration: .ephemeral)
+        self.base_url = target.site.rawValue
+        self.session = URLSession(configuration: .default)
     }
 
     
@@ -50,10 +52,8 @@ public class ShopifyBot {
         task.resume()
     }
     
-    
     private func addToCart(productInfo:ProductInfo) {
         print("Start adding to cart...")
-        let name = productInfo.productName
         let post_data:[String:Any] = ["id":productInfo.storeID, "quantity":productInfo.quantity]
         let post_url = "\(self.base_url)/cart/add.js"
         
@@ -61,13 +61,51 @@ public class ShopifyBot {
             let request = Utility.genUrlencodePostRequest(from: url, with: post_data)
             let task = self.session.dataTask(with: request) {(data,response,error) in
                 if error == nil {
-                    if let httpResponse = response as? HTTPURLResponse ,httpResponse.statusCode == 200, let fields = httpResponse.allHeaderFields as? [String : String],let url = httpResponse.url{
-                        let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: url)
-
+                    if let httpResponse = response as? HTTPURLResponse ,httpResponse.statusCode == 200{
+                        self.toCheckout()
                     }
                 }
             }
             task.resume()
         }
+    }
+    
+    private func toCheckout() {
+        let checkOutUrl = "\(self.base_url)/checkout"
+        guard let url = URL(string: checkOutUrl) else {return}
+        
+        let task = self.session.dataTask(with: url) {(data, response, error) in
+            
+            if error == nil, let data = data, let httpResponse = response as? HTTPURLResponse ,httpResponse.statusCode == 200 {
+                
+                self.redirected_url = httpResponse.url
+                
+                let urlContent = String(describing: NSString(data: data, encoding: String.Encoding.utf8.rawValue))
+                let authToken = Parser.parse(checkoutPageby: urlContent)
+                print(authToken)
+                print("   ")
+                
+                self.fillShipAddress(auth_token: authToken)
+            }
+            
+        }
+        task.resume()
+    }
+    
+    private func fillShipAddress(auth_token:String) {
+        if let url = self.redirected_url {
+            let postData = self.postDataManager.genShippingData(with: auth_token, ofSite: .apbstore)
+            
+            let request = Utility.genUrlencodePostRequest(from: url, with: postData)
+            
+            let task = self.session.dataTask(with: request) {(data, response, error) in
+                if error == nil, let data = data, let httpResponse = response as? HTTPURLResponse ,httpResponse.statusCode == 200 {
+                    let urlContent = String(describing: NSString(data: data, encoding: String.Encoding.utf8.rawValue))
+                    print(urlContent)
+                }
+            }
+            task.resume()
+        }
+        
     }
 }

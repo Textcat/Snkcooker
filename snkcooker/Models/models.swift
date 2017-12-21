@@ -7,11 +7,28 @@
 //
 
 import Foundation
+import Kanna
 
 struct BotTarget {
     let site:Site
     var quantity:Int
     var size:Double
+}
+
+struct Parser {
+    internal static func parse(checkoutPageby content:String) -> String {
+        do {
+            let doc = try HTML(html: content, encoding: .utf8)
+            let authObject = doc.xpath("//form[@class='edit_checkout']/input[@name='authenticity_token']/@value")[0]
+            if let authToken = authObject.content {
+                return authToken
+            }else {
+                return ""
+            }
+        }catch {
+            return ""
+        }
+    }
 }
 
 

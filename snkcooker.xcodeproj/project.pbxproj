@@ -19,6 +19,8 @@
 		18FBF9721FE5258F00EC2041 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18FBF9701FE5258F00EC2041 /* Main.storyboard */; };
 		18FBF97E1FE5838600EC2041 /* captchaSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FBF97D1FE5838600EC2041 /* captchaSolver.swift */; };
 		18FBF9811FE6332A00EC2041 /* utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FBF9801FE6332A00EC2041 /* utility.swift */; };
+		89E08E41DED85BB05BBD43B2 /* Pods_snkcooker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48F0EB83850476997F88BA79 /* Pods_snkcooker.framework */; };
+		BB484F24C981A5504D6EE381 /* Pods_snkcookerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD2189C72CE546E9C5E48E55 /* Pods_snkcookerTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +33,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		18C70D581FEC1EB50061AE44 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		0E097FC44BE94439ACA0E1ED /* Pods-snkcookerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snkcookerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-snkcookerTests/Pods-snkcookerTests.release.xcconfig"; sourceTree = "<group>"; };
+		1506EC786230FEFFD4B8D63A /* Pods-snkcookerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snkcookerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-snkcookerTests/Pods-snkcookerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1806E2941FE8063300B2CF04 /* userconfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = userconfig.plist; sourceTree = "<group>"; };
 		1809BEA11FE8EC410021C69B /* UserconfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserconfigViewController.swift; sourceTree = "<group>"; };
 		1819119D1FE6C8BF00678555 /* shopifyBot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shopifyBot.swift; sourceTree = "<group>"; };
@@ -49,6 +66,10 @@
 		18FBF9741FE5258F00EC2041 /* snkcooker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = snkcooker.entitlements; sourceTree = "<group>"; };
 		18FBF97D1FE5838600EC2041 /* captchaSolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = captchaSolver.swift; sourceTree = "<group>"; };
 		18FBF9801FE6332A00EC2041 /* utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utility.swift; sourceTree = "<group>"; };
+		48F0EB83850476997F88BA79 /* Pods_snkcooker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_snkcooker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D5BB37BDBB03DB75943BDC8 /* Pods-snkcooker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snkcooker.release.xcconfig"; path = "Pods/Target Support Files/Pods-snkcooker/Pods-snkcooker.release.xcconfig"; sourceTree = "<group>"; };
+		95F35672F4B934C3BF43F03F /* Pods-snkcooker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snkcooker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-snkcooker/Pods-snkcooker.debug.xcconfig"; sourceTree = "<group>"; };
+		CD2189C72CE546E9C5E48E55 /* Pods_snkcookerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_snkcookerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB484F24C981A5504D6EE381 /* Pods_snkcookerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89E08E41DED85BB05BBD43B2 /* Pods_snkcooker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +124,8 @@
 				18FBF9691FE5258F00EC2041 /* snkcooker */,
 				181911A81FE6FE9100678555 /* snkcookerTests */,
 				18FBF9681FE5258F00EC2041 /* Products */,
+				C652B80C6D497D2AD8C01112 /* Pods */,
+				BBC28AC9FEED8DDA409BC505 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -156,6 +181,26 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		BBC28AC9FEED8DDA409BC505 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				48F0EB83850476997F88BA79 /* Pods_snkcooker.framework */,
+				CD2189C72CE546E9C5E48E55 /* Pods_snkcookerTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C652B80C6D497D2AD8C01112 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				95F35672F4B934C3BF43F03F /* Pods-snkcooker.debug.xcconfig */,
+				7D5BB37BDBB03DB75943BDC8 /* Pods-snkcooker.release.xcconfig */,
+				1506EC786230FEFFD4B8D63A /* Pods-snkcookerTests.debug.xcconfig */,
+				0E097FC44BE94439ACA0E1ED /* Pods-snkcookerTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -163,9 +208,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 181911AE1FE6FE9100678555 /* Build configuration list for PBXNativeTarget "snkcookerTests" */;
 			buildPhases = (
+				88A40B6FAC6A356CD8AF7B31 /* [CP] Check Pods Manifest.lock */,
 				181911A31FE6FE9100678555 /* Sources */,
 				181911A41FE6FE9100678555 /* Frameworks */,
 				181911A51FE6FE9100678555 /* Resources */,
+				55EDE2EE68F19FB89497726D /* [CP] Embed Pods Frameworks */,
+				53BAC7B48344B11A2F4A304B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -181,9 +229,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 18FBF9771FE5258F00EC2041 /* Build configuration list for PBXNativeTarget "snkcooker" */;
 			buildPhases = (
+				635264557A0D89B0FD21C3BB /* [CP] Check Pods Manifest.lock */,
 				18FBF9631FE5258E00EC2041 /* Sources */,
 				18FBF9641FE5258E00EC2041 /* Frameworks */,
 				18FBF9651FE5258E00EC2041 /* Resources */,
+				CED800BAF008E4F0171DAAED /* [CP] Embed Pods Frameworks */,
+				85E5692483C18A14B646912F /* [CP] Copy Pods Resources */,
+				18C70D581FEC1EB50061AE44 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -254,6 +306,108 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		53BAC7B48344B11A2F4A304B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-snkcookerTests/Pods-snkcookerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		55EDE2EE68F19FB89497726D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-snkcookerTests/Pods-snkcookerTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		635264557A0D89B0FD21C3BB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-snkcooker-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		85E5692483C18A14B646912F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-snkcooker/Pods-snkcooker-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		88A40B6FAC6A356CD8AF7B31 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-snkcookerTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CED800BAF008E4F0171DAAED /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-snkcooker/Pods-snkcooker-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Kanna/Kanna.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kanna.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-snkcooker/Pods-snkcooker-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		181911A31FE6FE9100678555 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -302,6 +456,7 @@
 /* Begin XCBuildConfiguration section */
 		181911AF1FE6FE9100678555 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1506EC786230FEFFD4B8D63A /* Pods-snkcookerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -317,6 +472,7 @@
 		};
 		181911B01FE6FE9100678555 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0E097FC44BE94439ACA0E1ED /* Pods-snkcookerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -438,12 +594,13 @@
 		};
 		18FBF9781FE5258F00EC2041 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 95F35672F4B934C3BF43F03F /* Pods-snkcooker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = snkcooker/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = luiyezheng.snkcooker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -452,12 +609,13 @@
 		};
 		18FBF9791FE5258F00EC2041 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D5BB37BDBB03DB75943BDC8 /* Pods-snkcooker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = snkcooker/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = luiyezheng.snkcooker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
