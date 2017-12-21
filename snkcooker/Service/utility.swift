@@ -44,6 +44,13 @@ internal func += <K, V> (left: inout [K:V], right: [K:V]) {
 
 
 internal class PlistDicManager{
+    static func allPlistObject() -> NSMutableDictionary? {
+        let path = NSHomeDirectory()+"/snkcooker/userconfig.plist"
+        guard let dict = NSMutableDictionary(contentsOfFile: path) else {return [:]}
+        
+        return dict
+    }
+    
     static func readPlistObject(withkey key:String) -> Any?{
         let path = NSHomeDirectory()+"/snkcooker/userconfig.plist"
         guard let dict = NSMutableDictionary(contentsOfFile: path) else {return nil}
@@ -78,7 +85,6 @@ internal class PlistDicManager{
             
             do {
                 try fileManager.createDirectory(atPath: NSHomeDirectory()+"/snkcooker", withIntermediateDirectories: true, attributes:nil)
-                
                 let srcPath = Bundle.main.path(forResource: "userconfig", ofType: "plist")
                 
                 do {

@@ -15,6 +15,132 @@ struct BotTarget {
 }
 
 
+struct PostData {
+    var userShipConfig:[String:Any] = [:]
+    var userbillConfig:[String:Any] = [:]
+    var userCreditConfig:[String:Any] = [:]
+    
+    init() {
+        if let userconfig = PlistDicManager.allPlistObject() {
+            self.userShipConfig = (userconfig.object(forKey: "ShippingAddress") as? [String : Any])!
+            self.userbillConfig = (userconfig.object(forKey: "BillingAddress") as? [String : Any])!
+            self.userCreditConfig = (userconfig.object(forKey: "PaymentCardInfo") as? [String : Any])!
+
+            }
+        }
+    
+    internal func genShippingData(with auth_token:String, ofSite:Site) -> [String:Any] {
+        var data_to_post = [String:Any]()
+        data_to_post["utf8"] = "✓"
+        data_to_post["_method"] = "patch"
+        data_to_post["authenticity_token"] = auth_token
+        data_to_post["previous_step"] = "contact_information"
+        data_to_post["step"] = "shipping_method"
+        data_to_post["checkout[email]"] = "luiyezheng123@gmail.com"
+        data_to_post["checkout[shipping_address][first_name]"] = self.userShipConfig["firstName"]
+        data_to_post["checkout[shipping_address][last_name]"] = self.userShipConfig["lastName"]
+        data_to_post["checkout[shipping_address][company]"] = ""
+        data_to_post["checkout[shipping_address][address1]"] = self.userShipConfig["address1"]
+        data_to_post["checkout[shipping_address][address2]"] = self.userShipConfig["address2"]
+        data_to_post["checkout[shipping_address][city]"] = self.userShipConfig["city"]
+        data_to_post["checkout[shipping_address][country]"] = self.userShipConfig["country"]
+        data_to_post["checkout[shipping_address][province]"] = self.userShipConfig["province"]
+        data_to_post["checkout[shipping_address][zip]"] = self.userShipConfig["zip"]
+        data_to_post["checkout[shipping_address][phone]"] = self.userShipConfig["phone"]
+        data_to_post["button"] = ""
+        data_to_post["checkout[client_details][browser_width]"] = "1170"
+        data_to_post["checkout[client_details][browser_height]"] = "711"
+        data_to_post["checkout[client_details][javascript_enabled]"] = "1"
+        
+        var add_data = [String:Any]()
+        switch ofSite {
+        case .bowsandarrows:
+            add_data = ["checkout[buyer_accepts_marketing]":"0",
+                        "checkout[remember_me]":["0":"false","1":"0"]]
+        case .rockcitykicks:
+            add_data = ["checkout[buyer_accepts_marketing]":["0","1"]]
+        case .exclucitylife:
+            add_data = ["checkout[remember_me]":["0","false"],
+                        "checkout[buyer_accepts_marketing]":"0"]
+        case .notre:
+            add_data = ["checkout[buyer_accepts_marketing]":"0"]
+        default:
+            add_data = [:]
+        }
+        
+        data_to_post += add_data
+        return data_to_post
+    }
+    
+    
+    internal func genBillingData(with auth_token:String, sValue:String, price:String, payment_gateway:String) -> [String:Any]{
+        var data_to_post = [String:Any]()
+        data_to_post["utf8"] = "✓"
+        data_to_post["_method"] = "patch"
+        data_to_post["authenticity_token"] = auth_token
+        data_to_post["previous_step"] = "payment_method"
+        data_to_post["step"] = ""
+        data_to_post["s"] = sValue
+        data_to_post["checkout[payment_gateway]"] = payment_gateway
+        data_to_post["checkout[credit_card][vault]"] = "false"
+        data_to_post["checkout[different_billing_address]"] = "true"
+        data_to_post["checkout[billing_address][first_name]"] = self.userbillConfig["firstName"]
+        data_to_post["checkout[billing_address][last_name]"] = self.userbillConfig["lastName"]
+        data_to_post["checkout[billing_address][company]"] = ""
+        data_to_post["checkout[billing_address][address1]"] = self.userbillConfig["address1"]
+        data_to_post["checkout[billing_address][address2]"] = self.userbillConfig["address2"]
+        data_to_post["checkout[billing_address][city]"] = self.userbillConfig["city"]
+        data_to_post["checkout[billing_address][country]"] = self.userbillConfig["country"]
+        data_to_post["checkout[billing_address][province]"] = self.userbillConfig["province"]
+        data_to_post["checkout[billing_address][zip]"] = self.userbillConfig["zip"]
+        data_to_post["checkout[billing_address][phone]"] = self.userbillConfig["phone"]
+        data_to_post["checkout[remember_me]"] = "0"
+        data_to_post["checkout[vault_phone]"] = ""
+        data_to_post["checkout[total_price]"] = price
+        data_to_post["complete"] = "1"
+        data_to_post["checkout[client_details][browser_width]"] = "1170"
+        data_to_post["checkout[client_details][browser_height]"] = "711"
+        data_to_post["checkout[client_details][javascript_enabled]"] = "1"
+        
+        return data_to_post
+    }
+    
+    
+    internal func genShipMethodData(auth_token:String, ship_method:String) -> [String:Any] {
+        var data_to_post = [String:Any]()
+        
+        data_to_post["utf8"] = "✓"
+        data_to_post["_method"] = "patch"
+        data_to_post["authenticity_token"] = auth_token
+        data_to_post["previous_step"] = "shipping_method"
+        data_to_post["step"] = "payment_method"
+        data_to_post["checkout[shipping_rate][id]"] = ship_method
+        data_to_post["button"] = ""
+        data_to_post["checkout[client_details][browser_width]"] = "1170"
+        data_to_post["checkout[client_details][browser_height]"] = "711"
+        data_to_post["checkout[client_details][javascript_enabled]"] = "1"
+        
+        return data_to_post
+    }
+    
+    
+    internal func genCreditInfoData() -> [String:Any]{
+        var credit_info = [String:Any]()
+        var data_to_post = [String:Any]()
+        
+        credit_info["number"] = self.userCreditConfig["cardNumber"]
+        credit_info["name"] = self.userCreditConfig["nameOnCard"]
+        credit_info["month"] = ""
+        credit_info["year"] = ""
+        credit_info["verification_value"] = self.userCreditConfig["cvv"]
+        
+        data_to_post["credit_card"] = credit_info
+        
+        return data_to_post
+    }
+}
+
+
 struct ProductInfo {
     private var json:[String:Any] = [:]
     var productName:String? {
