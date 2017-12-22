@@ -15,27 +15,52 @@ public class ShopifyBot {
     let size:Double
     let autoCheckout:Bool
     let site:Site
+    let earlyLink:String
+    let loginEmail:String
+    let keywords:String
+    
+    var id:String?
+    var delegate:ShopifyBotDelegate?
     
     var session:SessionManager?
     var redirected_url:URL?
     
     lazy var postDataManager  = PostData()
     
-    init(target:BotTarget, autoCheckout:Bool=false) {
+    init(target:BotTarget) {
         self.site = target.site
         self.quantity = target.quantity
         self.size = target.size
-        self.autoCheckout = autoCheckout
-        
+        self.autoCheckout = target.autoCheckout
+        self.earlyLink = target.earlyLink
         self.base_url = target.site.rawValue
+        self.loginEmail = target.loginEmail
+        self.keywords = target.keywords
+        
         self.session = SessionManager(configuration:URLSessionConfiguration.ephemeral)
     }
     
-    public func cop(withKeywords keywords:Array<String>) {
+    public func cop() {
+        if self.earlyLink == ""{
+            self.cop(withKeywords: [])
+        }else {
+            self.cop(withProductUrl: self.earlyLink)
+        }
+    }
+
+    
+    public func cancelCop() {
+        self.session?.session.getAllTasks() {sessionTask in
+            sessionTask.forEach{$0.cancel()}
+            
+        }
+    }
+    
+    private func cop(withKeywords keywords:Array<String>) {
 
     }
     
-    public func cop(withProductUrl product_url:String) {
+    private func cop(withProductUrl product_url:String) {
         guard let request_url = URL(string: "\(product_url).json") else {return}
         guard let session = self.session else {return}
         session.request(request_url).responseData {response in
@@ -59,7 +84,7 @@ public class ShopifyBot {
             guard let session = self.session else {return}
             session.request(url, method: .post, parameters: post_data).response {response in
                 if response.response?.statusCode == 200 {
-                    
+                    self.delegate?.productDidAddedtoCart()
                     self.toCheckout()
                 }
             }
@@ -111,7 +136,7 @@ public class ShopifyBot {
                 if response.error == nil, let data = response.data, let httpResponse = response.response ,httpResponse.statusCode == 200 {
                     let urlContent = data.html
                     let values = Parser.parse(paymentPage: urlContent)
-                    print(values)
+                    
                     self.sendCreditInfo(authToken: values.0, price: values.1, gateway: values.2)
                 }
             }
@@ -125,7 +150,7 @@ public class ShopifyBot {
             guard let session = self.session else {return}
             session.request(url, method: .post, parameters: postData, encoding: JSONEncoding.default).responseJSON{response in
                 if let json = response.result.value as? [String:Any], let sValue = json["id"] as? String{
-                    print(sValue)
+                    
                     self.completePayment(authToken: authToken, price: price, gateway: gateway, sValue: sValue)
                 }
         }
@@ -139,6 +164,7 @@ public class ShopifyBot {
             session.request(url, method: .post, parameters: postData).response {response in
                 if response.error == nil, let httpResponse = response.response ,
                     httpResponse.statusCode == 200 {
+                    self.delegate?.productDidCheckedout()
                 }
                 self.session = nil
             }

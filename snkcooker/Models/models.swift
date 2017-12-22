@@ -9,8 +9,33 @@
 import Foundation
 import Kanna
 
+struct BotTask {
+    let target:BotTarget
+    let id:String
+    let bot:ShopifyBot
+    
+    init(target:BotTarget) {
+        self.target = target
+        self.id = UUID().uuidString
+        self.bot = ShopifyBot(target: target)
+        self.bot.id = self.id
+    }
+    
+    public func run() {
+        self.bot.cop()
+    }
+    
+    public func stop() {
+        self.bot.cancelCop()
+    }
+}
+
 struct BotTarget {
     let site:Site
+    let loginEmail:String
+    let keywords:String
+    let earlyLink:String
+    let autoCheckout:Bool
     var quantity:Int
     var size:Double
 }
@@ -287,4 +312,16 @@ public enum Site : String {
     case apbstore = "https://www.apbstore.com"
     case socialstatuspgh = "https://www.socialstatuspgh.com"
     case a_ma_maniere = "https://www.a-ma-maniere.com"
+    
+    static let allSites = [String(describing: a_ma_maniere),
+                           String(describing: apbstore),
+                           String(describing: bowsandarrows),
+                           String(describing: deadstock),
+                           String(describing: exclucitylife),
+                           String(describing: notre),
+                           String(describing: rockcitykicks),
+                           String(describing: shoegallerymiami),
+                           String(describing: shopnicekicks),
+                           String(describing: socialstatuspgh),
+                           String(describing: yeezysupply)]
 }

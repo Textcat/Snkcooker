@@ -13,6 +13,7 @@
 		181911A01FE6C9B500678555 /* models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1819119F1FE6C9B500678555 /* models.swift */; };
 		181911AA1FE6FE9100678555 /* snkcookerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181911A91FE6FE9100678555 /* snkcookerTests.swift */; };
 		181911B21FE7092A00678555 /* UITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181911B11FE7092A00678555 /* UITest.swift */; };
+		1821F1E71FED82C7005525AD /* shopifyBotDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1821F1E61FED82C7005525AD /* shopifyBotDelegate.swift */; };
 		18FBF96B1FE5258F00EC2041 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FBF96A1FE5258F00EC2041 /* AppDelegate.swift */; };
 		18FBF96D1FE5258F00EC2041 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FBF96C1FE5258F00EC2041 /* MainViewController.swift */; };
 		18FBF96F1FE5258F00EC2041 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18FBF96E1FE5258F00EC2041 /* Assets.xcassets */; };
@@ -57,6 +58,7 @@
 		181911A91FE6FE9100678555 /* snkcookerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = snkcookerTests.swift; sourceTree = "<group>"; };
 		181911AB1FE6FE9100678555 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		181911B11FE7092A00678555 /* UITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITest.swift; sourceTree = "<group>"; };
+		1821F1E61FED82C7005525AD /* shopifyBotDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shopifyBotDelegate.swift; sourceTree = "<group>"; };
 		18FBF9671FE5258F00EC2041 /* snkcooker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = snkcooker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18FBF96A1FE5258F00EC2041 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18FBF96C1FE5258F00EC2041 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				18FBF97D1FE5838600EC2041 /* captchaSolver.swift */,
 				18FBF9801FE6332A00EC2041 /* utility.swift */,
 				1819119D1FE6C8BF00678555 /* shopifyBot.swift */,
+				1821F1E61FED82C7005525AD /* shopifyBotDelegate.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				1819119E1FE6C8BF00678555 /* shopifyBot.swift in Sources */,
 				18FBF9811FE6332A00EC2041 /* utility.swift in Sources */,
 				18FBF96D1FE5258F00EC2041 /* MainViewController.swift in Sources */,
+				1821F1E71FED82C7005525AD /* shopifyBotDelegate.swift in Sources */,
 				18FBF96B1FE5258F00EC2041 /* AppDelegate.swift in Sources */,
 				18FBF97E1FE5838600EC2041 /* captchaSolver.swift in Sources */,
 			);
