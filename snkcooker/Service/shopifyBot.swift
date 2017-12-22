@@ -30,12 +30,10 @@ public class ShopifyBot {
         self.base_url = target.site.rawValue
         self.session = SessionManager(configuration:URLSessionConfiguration.ephemeral)
     }
-
     
     public func cop(withKeywords keywords:Array<String>) {
 
     }
-    
     
     public func cop(withProductUrl product_url:String) {
         guard let request_url = URL(string: "\(product_url).json") else {return}
@@ -61,6 +59,7 @@ public class ShopifyBot {
             guard let session = self.session else {return}
             session.request(url, method: .post, parameters: post_data).response {response in
                 if response.response?.statusCode == 200 {
+                    
                     self.toCheckout()
                 }
             }
@@ -77,7 +76,7 @@ public class ShopifyBot {
                 
                 self.redirected_url = httpResponse.url
                 
-                let urlContent = String(describing: NSString(data: data, encoding: String.Encoding.utf8.rawValue))
+                let urlContent = data.html
                 let authToken = Parser.parse(checkoutPageby: urlContent)
                 
                 self.fillShipAddress(auth_token: authToken)
@@ -87,14 +86,63 @@ public class ShopifyBot {
     
     private func fillShipAddress(auth_token:String) {
         if let url = self.redirected_url {
-            let postData = self.postDataManager.genShippingData(with: auth_token, ofSite: .apbstore)
+            let postData = self.postDataManager.genShippingData(with: auth_token, ofSite: self.site)
             
             guard let session = self.session else {return}
             session.request(url, method: .post, parameters: postData).response {response in
                 
                 if response.error == nil, let data = response.data, let httpResponse = response.response ,httpResponse.statusCode == 200 {
-                    let urlContent = String(describing: NSString(data: data, encoding: String.Encoding.utf8.rawValue))
-                    print(urlContent)
+                    
+                    let urlContent = data.html
+                    let values = Parser.parse(shipMethodPage: urlContent)
+                    print(values)
+                    
+                    self.selectShipMethod(auth_token: values.0, method: values.1)
+                }
+            }
+        }
+    }
+    
+    private func selectShipMethod(auth_token:String, method:String) {
+        if let url = self.redirected_url {
+            let postData = self.postDataManager.genShipMethodData(auth_token: auth_token, ship_method: method)
+            
+            guard let session = self.session else {return}
+            session.request(url, method: .post, parameters: postData).response {response in
+                
+                if response.error == nil, let data = response.data, let httpResponse = response.response ,httpResponse.statusCode == 200 {
+                    let urlContent = data.html
+                    let values = Parser.parse(paymentPage: urlContent)
+                    print(values)
+                    
+                    self.sendCreditInfo(authToken: values.0, price: values.1, gateway: values.2)
+                }
+            }
+        }
+    }
+    
+    private func sendCreditInfo(authToken:String, price:String, gateway:String) {
+            let postData = self.postDataManager.genCreditInfoData()
+            let url = "https://elb.deposit.shopifycs.com/sessions"
+        
+            guard let session = self.session else {return}
+            session.request(url, method: .post, parameters: postData, encoding: JSONEncoding.default).responseJSON{response in
+                if let json = response.result.value as? [String:Any], let sValue = json["id"] as? String{
+                    print(sValue)
+                    
+                    self.completePayment(authToken: authToken, price: price, gateway: gateway, sValue: sValue)
+                }
+        }
+    }
+    
+    private func completePayment(authToken:String, price:String, gateway:String, sValue:String) {
+        if let url = self.redirected_url {
+            let postData = self.postDataManager.genBillingData(with: authToken, sValue: sValue, price: price, payment_gateway: gateway)
+            
+            guard let session = self.session else {return}
+            session.request(url, method: .post, parameters: postData).response {response in
+                if response.error == nil, let httpResponse = response.response ,
+                    httpResponse.statusCode == 200 {
                     
                 }
                 self.session = nil

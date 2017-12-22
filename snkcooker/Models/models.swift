@@ -17,9 +17,10 @@ struct BotTarget {
 
 struct Parser {
     internal static func parse(checkoutPageby content:String) -> String {
+        let authPath = "//form[@class='edit_checkout']/input[@name='authenticity_token']/@value"
         do {
             let doc = try HTML(html: content, encoding: .utf8)
-            let authObject = doc.xpath("//form[@class='edit_checkout']/input[@name='authenticity_token']/@value")[0]
+            let authObject = doc.xpath(authPath)[0]
             if let authToken = authObject.content {
                 return authToken
             }else {
@@ -27,6 +28,38 @@ struct Parser {
             }
         }catch {
             return ""
+        }
+    }
+    
+    internal static func parse(shipMethodPage content:String) -> (String,String) {
+        let authPath = "//form[@data-shipping-method-form='true']/input[@name='authenticity_token']/@value"
+        let methodPath = "//div[@class='radio-wrapper']/@data-shipping-method"
+        do {
+            let doc = try HTML(html: content, encoding: .utf8)
+            let authToken = doc.xpath(authPath)[0].content ?? ""
+            let method = doc.xpath(methodPath).filter({$0.content?.contains("pick") == false})[0].content ?? ""
+            
+            return (authToken,method)
+        }catch {
+            return ("","")
+        }
+    }
+    
+    internal static func parse(paymentPage content:String) -> (String,String,String) {
+        let authPath = "//form[@data-payment-form='']/input[@name='authenticity_token']/@value"
+        let pricePath = "//input[@id='checkout_total_price']/@value"
+        do {
+            let doc = try HTML(html: content, encoding: .utf8)
+            let authToken = doc.xpath(authPath)[0].content ?? ""
+            let gateway = doc.xpath("//input[@name='checkout[payment_gateway]']")[0].xpath("./@value")[0].content ?? ""
+            if let priceString = doc.xpath(pricePath)[0].content, let price = Double(priceString) {
+                return (authToken, String(price), gateway)
+                
+            }else {
+                return ("","","")
+            }
+        }catch {
+            return ("","","")
         }
     }
 }

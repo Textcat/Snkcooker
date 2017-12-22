@@ -12,7 +12,6 @@ internal class Utility {
     static func genPostRequest(from url:URL,with postData:[String:Any])-> URLRequest? {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        
         do {
             let httpBody = try JSONSerialization.data(withJSONObject: postData, options: [])
             
@@ -22,24 +21,7 @@ internal class Utility {
             return nil
         }
     }
-    
-    static func genUrlencodePostRequest(from url:URL, with postData:[String:Any])-> URLRequest {
-        //let array:[String] = postData.map {"\(String($0))=\(String(describing: $1))"}
-        //let pamaraters = array.joined(separator: "&").data(using: .utf8,allowLossyConversion: false)
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        
-        return request
-    }
-
 }
-
-extension NSNumber {
-    fileprivate var isBool: Bool { return CFBooleanGetTypeID() == CFGetTypeID(self) }
-}
-
 
 internal func += <K, V> (left: inout [K:V], right: [K:V]) {
     for (k, v) in right {
@@ -47,6 +29,11 @@ internal func += <K, V> (left: inout [K:V], right: [K:V]) {
     }
 }
 
+extension Data {
+    var html:String {
+        return String(describing: NSString(data: self, encoding: String.Encoding.utf8.rawValue))
+    }
+}
 
 internal class PlistDicManager{
     static func allPlistObject() -> NSMutableDictionary? {

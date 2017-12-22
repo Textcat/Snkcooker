@@ -1822,7 +1822,7 @@
                                                 <rect key="frame" x="340" y="4" width="206" height="21"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yYs-2n-sC1">
-                                                        <rect key="frame" x="-2" y="2" width="37" height="17"/>
+                                                        <rect key="frame" x="-2" y="2" width="41" height="17"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Email:" id="nmE-Cz-eDS">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1830,7 +1830,7 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JdC-zc-PxM">
-                                                        <rect key="frame" x="36" y="-3" width="173" height="26"/>
+                                                        <rect key="frame" x="40" y="-3" width="169" height="26"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="170" id="KNB-NO-2Ee"/>
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="n5O-Ku-NQi"/>
