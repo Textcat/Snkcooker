@@ -52,8 +52,8 @@ struct Parser {
             let doc = try HTML(html: content, encoding: .utf8)
             let authToken = doc.xpath(authPath)[0].content ?? ""
             let gateway = doc.xpath("//input[@name='checkout[payment_gateway]']")[0].xpath("./@value")[0].content ?? ""
-            if let priceString = doc.xpath(pricePath)[0].content, let price = Double(priceString) {
-                return (authToken, String(price), gateway)
+            if let priceString = doc.xpath(pricePath)[0].content {
+                return (authToken, priceString, gateway)
                 
             }else {
                 return ("","","")
@@ -87,16 +87,16 @@ struct PostData {
         data_to_post["previous_step"] = "contact_information"
         data_to_post["step"] = "shipping_method"
         data_to_post["checkout[email]"] = "luiyezheng123@gmail.com"
-        data_to_post["checkout[shipping_address][first_name]"] = "Yu"
-        data_to_post["checkout[shipping_address][last_name]"] = "Zheng"
+        data_to_post["checkout[shipping_address][first_name]"] = self.userShipConfig["firstName"]
+        data_to_post["checkout[shipping_address][last_name]"] = self.userShipConfig["lastName"]
         data_to_post["checkout[shipping_address][company]"] = ""
-        data_to_post["checkout[shipping_address][address1]"] = "828 Jazz CT"
-        data_to_post["checkout[shipping_address][address2]"] = "18551629136"
-        data_to_post["checkout[shipping_address][city]"] = "San Jose"
-        data_to_post["checkout[shipping_address][country]"] = "United States"
-        data_to_post["checkout[shipping_address][province]"] = "California"
-        data_to_post["checkout[shipping_address][zip]"] = "95134"
-        data_to_post["checkout[shipping_address][phone]"] = "(408) 513-6565"
+        data_to_post["checkout[shipping_address][address1]"] = self.userShipConfig["address1"]
+        data_to_post["checkout[shipping_address][address2]"] = self.userShipConfig["address2"]
+        data_to_post["checkout[shipping_address][city]"] = self.userShipConfig["city"]
+        data_to_post["checkout[shipping_address][country]"] = self.userShipConfig["country"]
+        data_to_post["checkout[shipping_address][province]"] = self.userShipConfig["province"]
+        data_to_post["checkout[shipping_address][zip]"] = self.userShipConfig["zip"]
+        data_to_post["checkout[shipping_address][phone]"] = self.userShipConfig["phone"]
         data_to_post["button"] = ""
         data_to_post["checkout[client_details][browser_width]"] = "1170"
         data_to_post["checkout[client_details][browser_height]"] = "711"

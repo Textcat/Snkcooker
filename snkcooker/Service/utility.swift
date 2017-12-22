@@ -36,15 +36,15 @@ extension Data {
 }
 
 internal class PlistDicManager{
+    static let path = NSHomeDirectory()+"/snkcooker/userconfig.plist"
+    
     static func allPlistObject() -> NSMutableDictionary? {
-        let path = NSHomeDirectory()+"/snkcooker/userconfig.plist"
         guard let dict = NSMutableDictionary(contentsOfFile: path) else {return [:]}
         
         return dict
     }
     
     static func readPlistObject(withkey key:String) -> Any?{
-        let path = NSHomeDirectory()+"/snkcooker/userconfig.plist"
         guard let dict = NSMutableDictionary(contentsOfFile: path) else {return nil}
         guard let object = dict[key] else {return nil}
         
@@ -53,7 +53,6 @@ internal class PlistDicManager{
     
     
     static func writePlistObject(object:Any,forKey:String) {
-        let path = NSHomeDirectory()+"/snkcooker/userconfig.plist"
         let dict = NSMutableDictionary(contentsOfFile: path)
         
         dict?.setValue(object, forKey: forKey)
@@ -71,7 +70,6 @@ internal class PlistDicManager{
     
     
     static func checkExist() {
-        let path = NSHomeDirectory()+"/snkcooker/userconfig.plist"
         let fileManager = FileManager.default
         if !fileManager.fileExists(atPath: path) {
             

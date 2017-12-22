@@ -95,7 +95,6 @@ public class ShopifyBot {
                     
                     let urlContent = data.html
                     let values = Parser.parse(shipMethodPage: urlContent)
-                    print(values)
                     
                     self.selectShipMethod(auth_token: values.0, method: values.1)
                 }
@@ -109,12 +108,10 @@ public class ShopifyBot {
             
             guard let session = self.session else {return}
             session.request(url, method: .post, parameters: postData).response {response in
-                
                 if response.error == nil, let data = response.data, let httpResponse = response.response ,httpResponse.statusCode == 200 {
                     let urlContent = data.html
                     let values = Parser.parse(paymentPage: urlContent)
                     print(values)
-                    
                     self.sendCreditInfo(authToken: values.0, price: values.1, gateway: values.2)
                 }
             }
@@ -129,7 +126,6 @@ public class ShopifyBot {
             session.request(url, method: .post, parameters: postData, encoding: JSONEncoding.default).responseJSON{response in
                 if let json = response.result.value as? [String:Any], let sValue = json["id"] as? String{
                     print(sValue)
-                    
                     self.completePayment(authToken: authToken, price: price, gateway: gateway, sValue: sValue)
                 }
         }
@@ -143,7 +139,6 @@ public class ShopifyBot {
             session.request(url, method: .post, parameters: postData).response {response in
                 if response.error == nil, let httpResponse = response.response ,
                     httpResponse.statusCode == 200 {
-                    
                 }
                 self.session = nil
             }
