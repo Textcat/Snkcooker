@@ -25,6 +25,7 @@ class MainViewController: NSViewController {
     @IBOutlet var autoCheckoutButton: NSButton!
     
     @IBAction func sendSelectedSite(_ sender: NSPopUpButton) {
+        
     }
     
     @IBOutlet var taskTableView: NSTableView!
@@ -33,20 +34,29 @@ class MainViewController: NSViewController {
         var email = ""
         if let mailStr = EmailsData().emailOptions[self.emailComboBox.stringValue] {
             email = mailStr
-        }else {
+        }else if self.emailComboBox.stringValue.isValidEmail(){
             email = self.emailComboBox.stringValue
+        }else {
+            self.emailComboBox.becomeFirstResponder()
+            return
         }
-        print(email)
-        
-        guard let site = self.siteSelector.selectedItem?.title else {return}
-        guard let siteType = Site.siteDic[site] else {return}
         
         let size = self.sizeTextField.stringValue
         guard let sizeNum = Double(size) else {return}
+        if !size.isValidSize() {
+            self.sizeTextField.becomeFirstResponder()
+            return
+        }
         
         let kwd = self.kwdTextField.stringValue
+        if !kwd.isValidKeywords() {
+            self.kwdTextField.becomeFirstResponder()
+            return
+        }
         let link = self.earlyLinkTextField.stringValue
         let autoCheckout = (self.autoCheckoutButton.state.rawValue == 1)
+        guard let site = self.siteSelector.selectedItem?.title else {return}
+        guard let siteType = Site.siteDic[site] else {return}
         
         let newTarget = BotTarget(site: siteType, loginEmail: email, keywords: kwd, earlyLink: link, autoCheckout: autoCheckout, quantity: 1, size: sizeNum)
         let newTask = BotTask(target: newTarget)

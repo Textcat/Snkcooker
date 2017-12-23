@@ -1850,7 +1850,7 @@
                                 <rect key="frame" x="10" y="583" width="648" height="86"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xrN-lh-FpW">
-                                        <rect key="frame" x="0.0" y="58" width="448" height="28"/>
+                                        <rect key="frame" x="0.0" y="58" width="468" height="28"/>
                                         <subviews>
                                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="3" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Os-xo-bNv">
                                                 <rect key="frame" x="0.0" y="0.0" width="169" height="28"/>
@@ -1892,7 +1892,7 @@
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="3" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D1c-ng-Zgh">
-                                                <rect key="frame" x="177" y="4" width="190" height="21"/>
+                                                <rect key="frame" x="177" y="4" width="200" height="21"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yYs-2n-sC1">
                                                         <rect key="frame" x="-2" y="2" width="41" height="17"/>
@@ -1903,9 +1903,9 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JdC-zc-PxM">
-                                                        <rect key="frame" x="40" y="-3" width="153" height="26"/>
+                                                        <rect key="frame" x="40" y="-3" width="163" height="26"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="150" id="n5O-Ku-NQi"/>
+                                                            <constraint firstAttribute="width" constant="160" id="n5O-Ku-NQi"/>
                                                         </constraints>
                                                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="h9V-NA-wqz">
                                                             <font key="font" metaFont="system"/>
@@ -1929,7 +1929,7 @@
                                                 </customSpacing>
                                             </stackView>
                                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="3" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vrh-10-CXw">
-                                                <rect key="frame" x="375" y="3" width="73" height="22"/>
+                                                <rect key="frame" x="385" y="3" width="83" height="22"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="53k-Ns-tYx">
                                                         <rect key="frame" x="-2" y="2" width="34" height="17"/>
@@ -1940,9 +1940,9 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5QA-vi-4M6">
-                                                        <rect key="frame" x="33" y="0.0" width="40" height="22"/>
+                                                        <rect key="frame" x="33" y="0.0" width="50" height="22"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="40" id="itk-gr-us1"/>
+                                                            <constraint firstAttribute="width" constant="50" id="itk-gr-us1"/>
                                                         </constraints>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" bezelStyle="round" id="uZ9-0w-liC">
                                                             <font key="font" metaFont="system"/>
@@ -1997,9 +1997,9 @@
                                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ek8-Pb-kHg">
                                                 <rect key="frame" x="59" y="2" width="341" height="22"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="S1a-xa-P8Q"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="S1a-xa-P8Q"/>
                                                 </constraints>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Seperate by semicolon:nike;air;force" bezelStyle="round" id="6k9-lB-4eE">
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Eg:+Nike+Air+Force-Yeezy" bezelStyle="round" id="6k9-lB-4eE">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2125,7 +2125,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="4n8-c1-I5k" secondAttribute="trailing" id="qBO-4r-m1f"/>
-                                    <constraint firstAttribute="trailing" secondItem="xrN-lh-FpW" secondAttribute="trailing" constant="200" id="qtG-pS-gih"/>
+                                    <constraint firstAttribute="trailing" secondItem="xrN-lh-FpW" secondAttribute="trailing" constant="180" id="qtG-pS-gih"/>
                                 </constraints>
                                 <visibilityPriorities>
                                     <integer value="1000"/>

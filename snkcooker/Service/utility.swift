@@ -35,6 +35,29 @@ extension Data {
     }
 }
 
+extension String {
+    public func isValidEmail() -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        
+        return emailTest.evaluate(with: self)
+    }
+    
+    public func isValidSize() -> Bool {
+        let sizeRegex = "([0-9]|1[0-9])((.[5]){1})?"
+        let sizeTest = NSPredicate(format: "SELF MATCHES %@", sizeRegex)
+        
+        return sizeTest.evaluate(with: self)
+    }
+    
+    public func isValidKeywords() -> Bool {
+        let kwdRegex = "((\\+|\\-)[^\\+\\-]+)+"
+        let kwdTest = NSPredicate(format: "SELF MATCHES %@", kwdRegex)
+        
+        return kwdTest.evaluate(with: self)
+    }
+}
+
 internal class PlistDicManager{
     static let path = NSHomeDirectory()+"/snkcooker/userconfig.plist"
     
