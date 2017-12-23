@@ -9,14 +9,15 @@
 import Foundation
 import Kanna
 
-struct BotTask {
-    let site:String
-    let size:Double
-    let id:String
-    let bot:ShopifyBot
+class BotTask:NSCopying {
+    public let site:String
+    public let size:Double
+    public let id:String
+    public let bot:ShopifyBot
+    private let target:BotTarget
     
-    var productName:String = ""
-    var status = "Ready"
+    public var productName:String = ""
+    public var status = "Ready"
     
     init(target:BotTarget) {
         self.id = UUID().uuidString
@@ -24,6 +25,7 @@ struct BotTask {
         self.bot.id = self.id
         self.site = String(describing: target.site)
         self.size = target.size
+        self.target = target
     }
     
     public func run() {
@@ -32,6 +34,12 @@ struct BotTask {
     
     public func stop() {
         self.bot.cancelCop()
+    }
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        let botTask = BotTask(target: self.target)
+        
+        return botTask
     }
 }
 

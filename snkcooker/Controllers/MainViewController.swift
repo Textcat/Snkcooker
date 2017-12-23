@@ -9,8 +9,6 @@
 import Cocoa
 
 class MainViewController: NSViewController {
-    var emailData:EmailsData?
-    var tasks:Array<BotTask> = []
     
     @IBOutlet var emailComboBox: NSComboBox!
     
@@ -23,6 +21,20 @@ class MainViewController: NSViewController {
     @IBOutlet var earlyLinkTextField: NSTextField!
     
     @IBOutlet var autoCheckoutButton: NSButton!
+    
+    @IBOutlet var startSelectedButton: NSButton!
+    
+    @IBOutlet var stopSelectedButton: NSButton!
+    
+    @IBOutlet var deleteSelected: NSButton!
+    
+    @IBOutlet var copySelecteButton: NSButton!
+    
+    @IBOutlet var startAllButton: NSButton!
+    
+    @IBOutlet var stopAllButton: NSButton!
+    
+    @IBOutlet var deleteAllButton: NSButton!
     
     @IBAction func sendSelectedSite(_ sender: NSPopUpButton) {
         
@@ -65,11 +77,84 @@ class MainViewController: NSViewController {
         self.taskTableView.reloadData()
     }
     
+    @IBAction func startSelectedTask(_ sender: NSButton) {
+        let index = self.taskTableView.selectedRow
+        
+        self.tasks[index].run()
+    }
+    
+    @IBAction func startAllTasks(_ sender: NSButton) {
+        for task in tasks {
+            task.run()
+        }
+    }
+    
+    @IBAction func stopSelectedTask(_ sender: NSButton) {
+        let index = self.taskTableView.selectedRow
+        
+        self.tasks[index].stop()
+    }
+    
+    @IBAction func stopAllTasks(_ sender: NSButton) {
+        for task in tasks {
+            task.stop()
+        }
+    }
+    
+    @IBAction func deleteSelectedTask(_ sender: NSButton) {
+        let index = self.taskTableView.selectedRow
+        
+        self.tasks.remove(at: index)
+        self.taskTableView.reloadData()
+    }
+    
+    @IBAction func deleteAllTasks(_ sender: NSButton) {
+        self.tasks = []
+        self.taskTableView.reloadData()
+    }
+    
+    @IBAction func copySelectedTask(_ sender: NSButton) {
+        let index = self.taskTableView.selectedRow
+        let copiedNewTask = self.tasks[index].copy() as! BotTask
+        
+        self.tasks.append(copiedNewTask)
+        self.taskTableView.reloadData()
+    }
+    
+    var emailData:EmailsData?
+    
+    var tasks:Array<BotTask> = [] {
+        willSet {
+            let buttonGroup = [self.startSelectedButton,
+                               self.startAllButton,
+                               self.stopSelectedButton,
+                               self.stopAllButton,
+                               self.deleteSelected,
+                               self.deleteAllButton,
+                               self.copySelecteButton]
+            let allGroup = [self.startAllButton,
+                            self.stopAllButton,
+                            self.deleteAllButton]
+            if newValue.count == 0 {
+                for button in buttonGroup {
+                    button?.isEnabled = false
+                }
+            }else{
+                for button in allGroup {
+                    button?.isEnabled = true
+                }
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         //let newBot = ShopifyBot(target: BotTarget(site: .apbstore, quantity: 1, size: 9))
         //newBot.cop(withProductUrl: "https://www.apbstore.com/collections/new-arrivals/products/aj-13-altitude-414571-042-blk-grn")
+        self.startSelectedButton.isEnabled = false
+        self.stopSelectedButton.isEnabled = false
+        self.deleteSelected.isEnabled = false
+        self.copySelecteButton.isEnabled = false
         
         self.emailComboBox.delegate = self
         self.taskTableView.delegate = self
@@ -89,6 +174,15 @@ class MainViewController: NSViewController {
             self.emailComboBox.addItems(withObjectValues: abbrs)
         }
     }
+    
+    private func disableButton(button:NSButton) {
+        button.isEnabled = false
+    }
+    
+    private func enableButton(button:NSButton) {
+        button.isEnabled = true
+    }
+    
 }
 
 
@@ -149,6 +243,22 @@ extension MainViewController:NSTableViewDelegate, NSTableViewDataSource {
             return cell
         }
         return nil
+    }
+    
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        let buttonGroup = [self.startSelectedButton,
+                           self.stopSelectedButton,
+                           self.deleteSelected,
+                           self.copySelecteButton]
+        if self.taskTableView.selectedRow != -1 {
+            for button in buttonGroup {
+                button?.isEnabled = true
+            }
+        }else {
+            for button in buttonGroup {
+                button?.isEnabled = false
+            }
+        }
     }
 }
 
