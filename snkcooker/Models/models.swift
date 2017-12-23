@@ -10,15 +10,20 @@ import Foundation
 import Kanna
 
 struct BotTask {
-    let target:BotTarget
+    let site:String
+    let size:Double
     let id:String
     let bot:ShopifyBot
     
+    var productName:String = ""
+    var status = "Ready"
+    
     init(target:BotTarget) {
-        self.target = target
         self.id = UUID().uuidString
         self.bot = ShopifyBot(target: target)
         self.bot.id = self.id
+        self.site = String(describing: target.site)
+        self.size = target.size
     }
     
     public func run() {
@@ -276,8 +281,8 @@ struct EmailsData {
         var options:[String:String] = [:]
         
         for value in values {
-            if let abbr = value["abbr"] {
-                options[abbr] = value[abbr]
+            if let abbr = value["abbr"], let address = value["address"]{
+                options[abbr] = address
             }
         }
         return options
@@ -312,6 +317,18 @@ public enum Site : String {
     case apbstore = "https://www.apbstore.com"
     case socialstatuspgh = "https://www.socialstatuspgh.com"
     case a_ma_maniere = "https://www.a-ma-maniere.com"
+    
+    static let siteDic = ["a_ma_maniere":a_ma_maniere,
+                          "apbstore":apbstore,
+                          "bowsandarrows":bowsandarrows,
+                          "deadstock":deadstock,
+                          "exclucitylife":exclucitylife,
+                          "notre":notre,
+                          "rockcitykicks":rockcitykicks,
+                          "shoegallerymiami":shoegallerymiami,
+                          "shopnicekicks":shopnicekicks,
+                          "socialstatuspgh":socialstatuspgh,
+                          "yeezysupply":yeezysupply]
     
     static let allSites = [String(describing: a_ma_maniere),
                            String(describing: apbstore),

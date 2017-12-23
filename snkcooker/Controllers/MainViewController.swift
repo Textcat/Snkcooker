@@ -10,15 +10,49 @@ import Cocoa
 
 class MainViewController: NSViewController {
     var emailData:EmailsData?
+    var tasks:Array<BotTask> = []
     
     @IBOutlet var emailComboBox: NSComboBox!
     
     @IBOutlet var siteSelector: NSPopUpButton!
-
+    
+    @IBOutlet var sizeTextField: NSTextField!
+    
+    @IBOutlet var kwdTextField: NSTextField!
+    
+    @IBOutlet var earlyLinkTextField: NSTextField!
+    
+    @IBOutlet var autoCheckoutButton: NSButton!
+    
     @IBAction func sendSelectedSite(_ sender: NSPopUpButton) {
     }
     
+    @IBOutlet var taskTableView: NSTableView!
+    
     @IBAction func addTask(_ sender: NSButton) {
+        var email = ""
+        if let mailStr = EmailsData().emailOptions[self.emailComboBox.stringValue] {
+            email = mailStr
+        }else {
+            email = self.emailComboBox.stringValue
+        }
+        print(email)
+        
+        guard let site = self.siteSelector.selectedItem?.title else {return}
+        guard let siteType = Site.siteDic[site] else {return}
+        
+        let size = self.sizeTextField.stringValue
+        guard let sizeNum = Double(size) else {return}
+        
+        let kwd = self.kwdTextField.stringValue
+        let link = self.earlyLinkTextField.stringValue
+        let autoCheckout = (self.autoCheckoutButton.state.rawValue == 1)
+        
+        let newTarget = BotTarget(site: siteType, loginEmail: email, keywords: kwd, earlyLink: link, autoCheckout: autoCheckout, quantity: 1, size: sizeNum)
+        let newTask = BotTask(target: newTarget)
+        self.tasks.append(newTask)
+        
+        self.taskTableView.reloadData()
     }
     
     
@@ -28,6 +62,8 @@ class MainViewController: NSViewController {
         //newBot.cop(withProductUrl: "https://www.apbstore.com/collections/new-arrivals/products/aj-13-altitude-414571-042-blk-grn")
         
         self.emailComboBox.delegate = self
+        self.taskTableView.delegate = self
+        self.taskTableView.dataSource = self
         
         self.loadSiteSelector()
     }
@@ -49,6 +85,60 @@ class MainViewController: NSViewController {
 extension MainViewController:NSComboBoxDelegate {
     func comboBoxWillPopUp(_ notification: Notification) {
         self.loadEmailSelector()
+    }
+}
+
+extension MainViewController:NSTableViewDelegate, NSTableViewDataSource {
+    private enum CellIdentifiers {
+        static let siteCell = "siteCellID"
+        static let sizeCell = "sizeCellID"
+        static let productCell  = "productCellID"
+        static let statusCell = "statusCellID"
+        static let kwdCell = "kwdCellID"
+        static let earlyLinkCell = "earlyLinkCellID"
+        static let emailCell = "emailCellID"
+    }
+
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        let taskCount = self.tasks.count
+            return taskCount
+    }
+    
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        var text:String = ""
+        var cellIdentity:String = ""
+        let item = tasks[row]
+        
+        if tableColumn == tableView.tableColumns[0] {
+            text = item.site
+            cellIdentity = CellIdentifiers.siteCell
+        }else if tableColumn == tableView.tableColumns[1]  {
+            text = String(item.size)
+            cellIdentity = CellIdentifiers.sizeCell
+        }else if tableColumn == tableView.tableColumns[2] {
+            text = item.productName
+            cellIdentity = CellIdentifiers.productCell
+            
+        }else if tableColumn == tableView.tableColumns[3]{
+            text = item.bot.keywords
+            cellIdentity = CellIdentifiers.kwdCell
+        }else if tableColumn == tableView.tableColumns[5] {
+            text = item.bot.earlyLink != "" ? "YES" : "NO"
+            cellIdentity = CellIdentifiers.earlyLinkCell
+        }else if tableColumn == tableView.tableColumns[4] {
+            text = item.bot.loginEmail
+            cellIdentity = CellIdentifiers.emailCell
+        }
+        else {
+            text = item.status
+            cellIdentity = CellIdentifiers.statusCell
+        }
+        if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentity), owner: nil) as? NSTableCellView {
+            
+            cell.textField?.stringValue = text
+            return cell
+        }
+        return nil
     }
 }
 
