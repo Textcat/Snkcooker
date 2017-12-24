@@ -321,7 +321,8 @@ extension MainViewController:NSTableViewDelegate, NSTableViewDataSource {
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
-        self.stateReducer(tasks: self.tasks, action: .selectTask(index: self.taskTableView.selectedRow))
+        self.stateReducer(tasks: self.tasks,
+                          action: .selectTask(index: self.taskTableView.selectedRow))
     }
 }
 

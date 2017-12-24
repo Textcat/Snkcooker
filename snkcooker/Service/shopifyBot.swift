@@ -98,7 +98,10 @@ public class ShopifyBot {
         
         guard let session = self.session else {return}
         session.request(url).response {response in
-            if response.error == nil, let data = response.data, let httpResponse = response.response ,httpResponse.statusCode == 200 {
+            if response.error == nil,
+                let data = response.data,
+                let httpResponse = response.response ,
+                httpResponse.statusCode == 200 {
                 
                 self.redirected_url = httpResponse.url
                 
@@ -117,7 +120,11 @@ public class ShopifyBot {
             guard let session = self.session else {return}
             session.request(url, method: .post, parameters: postData).response {response in
                 
-                if response.error == nil, let data = response.data, let httpResponse = response.response ,httpResponse.statusCode == 200 {
+                if response.error == nil,
+                    let data = response.data,
+                    let httpResponse = response.response ,
+                    httpResponse.statusCode == 200
+                {
                     
                     let urlContent = data.html
                     let values = Parser.parse(shipMethodPage: urlContent)
@@ -130,15 +137,22 @@ public class ShopifyBot {
     
     private func selectShipMethod(auth_token:String, method:String) {
         if let url = self.redirected_url {
-            let postData = self.postDataManager.genShipMethodData(auth_token: auth_token, ship_method: method)
+            let postData = self.postDataManager.genShipMethodData(auth_token: auth_token,
+                                                                  ship_method: method)
             
             guard let session = self.session else {return}
             session.request(url, method: .post, parameters: postData).response {response in
-                if response.error == nil, let data = response.data, let httpResponse = response.response ,httpResponse.statusCode == 200 {
+                if response.error == nil,
+                    let data = response.data,
+                    let httpResponse = response.response ,
+                    httpResponse.statusCode == 200
+                {
                     let urlContent = data.html
                     let values = Parser.parse(paymentPage: urlContent)
                     
-                    self.sendCreditInfo(authToken: values.0, price: values.1, gateway: values.2)
+                    self.sendCreditInfo(authToken: values.0,
+                                        price: values.1,
+                                        gateway: values.2)
                 }
             }
         }
@@ -149,17 +163,26 @@ public class ShopifyBot {
             let url = "https://elb.deposit.shopifycs.com/sessions"
         
             guard let session = self.session else {return}
-            session.request(url, method: .post, parameters: postData, encoding: JSONEncoding.default).responseJSON{response in
-                if let json = response.result.value as? [String:Any], let sValue = json["id"] as? String{
-                    
-                    self.completePayment(authToken: authToken, price: price, gateway: gateway, sValue: sValue)
+            session.request(url, method: .post,
+                            parameters: postData,
+                            encoding: JSONEncoding.default).responseJSON{response in
+                if let json = response.result.value as? [String:Any],
+                    let sValue = json["id"] as? String
+                {
+                    self.completePayment(authToken: authToken,
+                                         price: price,
+                                         gateway: gateway,
+                                         sValue: sValue)
                 }
         }
     }
     
     private func completePayment(authToken:String, price:String, gateway:String, sValue:String) {
         if let url = self.redirected_url {
-            let postData = self.postDataManager.genBillingData(with: authToken, sValue: sValue, price: price, payment_gateway: gateway)
+            let postData = self.postDataManager.genBillingData(with: authToken,
+                                                               sValue: sValue,
+                                                               price: price,
+                                                               payment_gateway: gateway)
             
             guard let session = self.session else {return}
             session.request(url, method: .post, parameters: postData).response {response in
@@ -173,9 +196,25 @@ public class ShopifyBot {
     }
 }
 
+typealias Keywords = (Array<String>,Array<String>)
+
+extension ShopifyBot {
+    private func searchProduct(ofSite site:Site, byKeywords keywords:Keywords) -> [String:String] {
+        return [:]
+    }
+}
+
 private class RetryHandler:RequestRetrier {
-    public func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
-        if let task = request.task, let response = task.response as? HTTPURLResponse, response.statusCode != 400, response.statusCode != 404 {
+    public func should(_ manager: SessionManager,
+                       retry request: Request,
+                       with error: Error,
+                       completion: @escaping RequestRetryCompletion)
+    {
+        if let task = request.task,
+            let response = task.response as? HTTPURLResponse,
+            response.statusCode != 400,
+            response.statusCode != 404
+        {
             completion(true, 1.0) // retry after 1 second
         } else {
             completion(false, 0.0) // don't retry

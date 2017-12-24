@@ -21,6 +21,7 @@ internal class Utility {
             return nil
         }
     }
+    
 }
 
 internal func += <K, V> (left: inout [K:V], right: [K:V]) {
@@ -36,25 +37,55 @@ extension Data {
 }
 
 extension String {
-    public func isValidEmail() -> Bool {
+    internal func isValidEmail() -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         
         return emailTest.evaluate(with: self)
     }
     
-    public func isValidSize() -> Bool {
+    internal func isValidSize() -> Bool {
         let sizeRegex = "([0-9]|1[0-9])((.[5]){1})?"
         let sizeTest = NSPredicate(format: "SELF MATCHES %@", sizeRegex)
         
         return sizeTest.evaluate(with: self)
     }
     
-    public func isValidKeywords() -> Bool {
+    internal func isValidKeywords() -> Bool {
         let kwdRegex = "((\\+|\\-)[^\\+\\-]+)+"
         let kwdTest = NSPredicate(format: "SELF MATCHES %@", kwdRegex)
         
         return kwdTest.evaluate(with: self)
+    }
+    
+    internal func keywords() -> Keywords{
+        var positiveKeywords:Array<String> = []
+        var negativeKeywords:Array<String> = []
+        // (1):
+        let positivePat = "(?<=\\+)([a-zA-Z]+)"
+        let negativePat = "(?<=\\-)([a-zA-Z]+)"
+        // (3):
+        let positiveRegex = try! NSRegularExpression(pattern: positivePat, options: [])
+        let negativeRegex = try! NSRegularExpression(pattern: negativePat, options: [])
+        // (4):
+        let positiveMatchs = positiveRegex.matches(in: self, options: [], range: NSRange(location: 0, length: self.count))
+        let negativeMatchs = negativeRegex.matches(in: self, options: [], range: NSRange(location: 0, length: self.count))
+        
+        for match in positiveMatchs {
+            if let range = Range(match.range, in:self) {
+                let newKeyword = String(self[range])
+                positiveKeywords.append(newKeyword)
+            }
+        }
+        
+        for match in negativeMatchs {
+            if let range = Range(match.range, in:self) {
+                let newKeyword = String(self[range])
+                negativeKeywords.append(newKeyword)
+            }
+        }
+        
+        return (positiveKeywords, negativeKeywords)
     }
 }
 
