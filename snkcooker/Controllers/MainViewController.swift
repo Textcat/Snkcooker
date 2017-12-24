@@ -151,11 +151,6 @@ class MainViewController: NSViewController {
         super.viewDidLoad()
         //let newBot = ShopifyBot(target: BotTarget(site: .apbstore, quantity: 1, size: 9))
         //newBot.cop(withProductUrl: "https://www.apbstore.com/collections/new-arrivals/products/aj-13-altitude-414571-042-blk-grn")
-        self.startSelectedButton.isEnabled = false
-        self.stopSelectedButton.isEnabled = false
-        self.deleteSelected.isEnabled = false
-        self.copySelecteButton.isEnabled = false
-        
         self.emailComboBox.delegate = self
         self.taskTableView.delegate = self
         self.taskTableView.dataSource = self
@@ -182,9 +177,7 @@ class MainViewController: NSViewController {
     private func enableButton(button:NSButton) {
         button.isEnabled = true
     }
-    
 }
-
 
 extension MainViewController:NSComboBoxDelegate {
     func comboBoxWillPopUp(_ notification: Notification) {
