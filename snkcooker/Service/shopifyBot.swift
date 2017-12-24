@@ -38,6 +38,7 @@ public class ShopifyBot {
         self.keywords = target.keywords
         
         self.session = SessionManager(configuration:URLSessionConfiguration.ephemeral)
+        self.session?.retrier = RetryHandler()
     }
     
     public func cop() {
@@ -172,3 +173,12 @@ public class ShopifyBot {
     }
 }
 
+private class RetryHandler:RequestRetrier {
+    public func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+        if let task = request.task, let response = task.response as? HTTPURLResponse, response.statusCode != 400, response.statusCode != 404 {
+            completion(true, 1.0) // retry after 1 second
+        } else {
+            completion(false, 0.0) // don't retry
+        }
+    }
+}
