@@ -43,38 +43,23 @@ class MainViewController: NSViewController {
     @IBOutlet var taskTableView: NSTableView!
     
     @IBAction func addTask(_ sender: NSButton) {
-        var email = ""
-        if let mailStr = EmailsData().emailOptions[self.emailComboBox.stringValue] {
-            email = mailStr
-        }else if self.emailComboBox.stringValue.isValidEmail(){
-            email = self.emailComboBox.stringValue
-        }else {
-            self.emailComboBox.becomeFirstResponder()
-            return
-        }
+        let quantity = 1
+        let emailStr = self.emailComboBox.stringValue
+        let kwdStr = self.kwdTextField.stringValue
+        let linkStr = self.earlyLinkTextField.stringValue
+        let auCheckoutInt = self.autoCheckoutButton.state.rawValue
+        let sizeStr = self.sizeTextField.stringValue
+        guard let siteStr = self.siteSelector.selectedItem?.title else {return}
         
-        let size = self.sizeTextField.stringValue
-        guard let sizeNum = Double(size) else {return}
-        if !size.isValidSize() {
-            self.sizeTextField.becomeFirstResponder()
-            return
-        }
+        self.stateReducer(tasks: self.tasks,
+                          action: .newTask(siteStr: siteStr,
+                                           email: emailStr,
+                                           kwd: kwdStr,
+                                           link: linkStr,
+                                           autoCheckout: auCheckoutInt,
+                                           quantity: quantity,
+                                           size: sizeStr))
         
-        let kwd = self.kwdTextField.stringValue
-        if !kwd.isValidKeywords() {
-            self.kwdTextField.becomeFirstResponder()
-            return
-        }
-        let link = self.earlyLinkTextField.stringValue
-        let autoCheckout = (self.autoCheckoutButton.state.rawValue == 1)
-        guard let site = self.siteSelector.selectedItem?.title else {return}
-        guard let siteType = Site.siteDic[site] else {return}
-        
-        let newTarget = BotTarget(site: siteType, loginEmail: email, keywords: kwd, earlyLink: link, autoCheckout: autoCheckout, quantity: 1, size: sizeNum)
-        let newTask = BotTask(target: newTarget)
-        self.tasks.append(newTask)
-        
-        self.taskTableView.reloadData()
     }
     
     @IBAction func startSelectedTask(_ sender: NSButton) {
@@ -105,12 +90,14 @@ class MainViewController: NSViewController {
         let index = self.taskTableView.selectedRow
         
         self.tasks.remove(at: index)
-        self.taskTableView.reloadData()
+        self.stateReducer(tasks: self.tasks, action: .deleteTask)
+
     }
     
     @IBAction func deleteAllTasks(_ sender: NSButton) {
         self.tasks = []
-        self.taskTableView.reloadData()
+        self.stateReducer(tasks: self.tasks, action: .deleteTask)
+
     }
     
     @IBAction func copySelectedTask(_ sender: NSButton) {
@@ -118,34 +105,13 @@ class MainViewController: NSViewController {
         let copiedNewTask = self.tasks[index].copy() as! BotTask
         
         self.tasks.append(copiedNewTask)
-        self.taskTableView.reloadData()
+        self.stateReducer(tasks: self.tasks, action: .copySelectedTask)
+
     }
     
     var emailData:EmailsData?
     
-    var tasks:Array<BotTask> = [] {
-        willSet {
-            let buttonGroup = [self.startSelectedButton,
-                               self.startAllButton,
-                               self.stopSelectedButton,
-                               self.stopAllButton,
-                               self.deleteSelected,
-                               self.deleteAllButton,
-                               self.copySelecteButton]
-            let allGroup = [self.startAllButton,
-                            self.stopAllButton,
-                            self.deleteAllButton]
-            if newValue.count == 0 {
-                for button in buttonGroup {
-                    button?.isEnabled = false
-                }
-            }else{
-                for button in allGroup {
-                    button?.isEnabled = true
-                }
-            }
-        }
-    }
+    var tasks:Array<BotTask> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -170,12 +136,128 @@ class MainViewController: NSViewController {
         }
     }
     
-    private func disableButton(button:NSButton) {
-        button.isEnabled = false
+    enum Actions {
+        case newTask(siteStr:String,
+            email:String,
+            kwd:String,
+            link:String,
+            autoCheckout:Int,
+            quantity:Int,
+            size:String)
+        case selectTask(index:Int)
+        case deleteTask
+        case copySelectedTask
     }
     
-    private func enableButton(button:NSButton) {
-        button.isEnabled = true
+    private func stateReducer(tasks:Array<BotTask>, action:Actions) {
+        var enabled:Array<NSButton> = []
+        var disabled:Array<NSButton> = []
+        
+        switch action {
+        case .newTask(let siteStr,
+                      let emailStr,
+                      let kwdStr,
+                      let linkStr,
+                      let autoCheckoutInt,
+                      let quantityInt,
+                      let sizeStr):
+            var email = ""
+            if let mailStr = EmailsData().emailOptions[emailStr] {
+                email = mailStr
+            }else if emailStr.isValidEmail(){
+                email = emailStr
+            }else {
+                self.emailComboBox.becomeFirstResponder()
+                return
+            }
+            
+            let size = sizeStr
+            guard let sizeNum = Double(size) else {return}
+            if !size.isValidSize() {
+                self.sizeTextField.becomeFirstResponder()
+                return
+            }
+            
+            let kwd = kwdStr
+            if !kwd.isValidKeywords() {
+                self.kwdTextField.becomeFirstResponder()
+                return
+            }
+            let link = linkStr
+            let autoCheckout = (autoCheckoutInt == 1)
+            
+            let site = siteStr
+            guard let siteType = Site.siteDic[site] else {return}
+            
+            let newTarget = BotTarget(site: siteType,
+                                      loginEmail: email,
+                                      keywords: kwd,
+                                      earlyLink: link,
+                                      autoCheckout: autoCheckout,
+                                      quantity: quantityInt,
+                                      size: sizeNum)
+            let newTask = BotTask(target: newTarget)
+            self.tasks.append(newTask)
+            
+            self.taskTableView.reloadData()
+            
+            disabled = [self.startSelectedButton,
+                        self.stopSelectedButton,
+                        self.deleteSelected,
+                        self.copySelecteButton]
+            enabled = [self.startAllButton,
+                       self.stopAllButton,
+                       self.deleteAllButton]
+            
+        case .deleteTask, .copySelectedTask:
+            disabled = [self.startSelectedButton,
+                        self.stopSelectedButton,
+                        self.deleteSelected,
+                        self.copySelecteButton]
+            enabled = [self.startAllButton,
+                       self.stopAllButton,
+                       self.deleteAllButton]
+            
+            self.taskTableView.reloadData()
+            
+        case .selectTask(let index):
+            if index == -1 {
+                disabled = [self.startSelectedButton,
+                            self.stopSelectedButton,
+                            self.deleteSelected,
+                            self.copySelecteButton]
+                enabled = [self.startAllButton,
+                           self.stopAllButton,
+                           self.deleteAllButton]
+                
+            }else {
+                enabled = [self.startSelectedButton,
+                           self.startAllButton,
+                           self.stopSelectedButton,
+                           self.stopAllButton,
+                           self.deleteSelected,
+                           self.deleteAllButton,
+                           self.copySelecteButton]
+            }
+    }
+        if tasks.count == 0 {
+            disabled = [self.startSelectedButton,
+                        self.startAllButton,
+                        self.stopSelectedButton,
+                        self.stopAllButton,
+                        self.deleteSelected,
+                        self.deleteAllButton,
+                        self.copySelecteButton]
+            enabled = []
+        }
+        
+        for button in enabled {
+            button.isEnabled = true
+        }
+        
+        for button in disabled {
+            button.isEnabled = false
+        }
     }
 }
 
@@ -239,19 +321,7 @@ extension MainViewController:NSTableViewDelegate, NSTableViewDataSource {
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
-        let buttonGroup = [self.startSelectedButton,
-                           self.stopSelectedButton,
-                           self.deleteSelected,
-                           self.copySelecteButton]
-        if self.taskTableView.selectedRow != -1 {
-            for button in buttonGroup {
-                button?.isEnabled = true
-            }
-        }else {
-            for button in buttonGroup {
-                button?.isEnabled = false
-            }
-        }
+        self.stateReducer(tasks: self.tasks, action: .selectTask(index: self.taskTableView.selectedRow))
     }
 }
 
