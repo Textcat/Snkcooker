@@ -118,8 +118,9 @@ public class ShopifyBot {
     private func fillShipAddress(auth_token:String) {
         guard let url = self.redirected_url else {return}
         guard let session = self.session else {return}
-        let postData = self.postDataManager.genShippingData(with: auth_token,
+        var postData = self.postDataManager.genShippingData(with: auth_token,
                                                             ofSite: self.site)
+        postData["checkout[email]"] = self.loginEmail
     
         session.request(url, method: .post, parameters: postData).response {response in
             

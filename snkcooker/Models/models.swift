@@ -114,8 +114,8 @@ struct Parser {
         }
 
         let keywords = keywords.keywords()
-        let positiveKwd = keywords.0
-        let negativeKwd = keywords.1
+        let positiveKwd = keywords.0.map{$0.lowercased()}
+        let negativeKwd = keywords.1.map{$0.lowercased()}
         
         var foundProducts:[String:String] = [:]
         let namespaces = ["d":"http://www.sitemaps.org/schemas/sitemap/0.9",
@@ -131,8 +131,8 @@ struct Parser {
                                                 namespaces: namespaces)[0].content
 
                 if let name = productName,
-                    (positiveKwd.filter{name.contains($0)}.count == positiveKwd.count),
-                    (negativeKwd.filter {name.contains($0)} == [])
+                    (positiveKwd.filter{name.lowercased().contains($0)}.count == positiveKwd.count),
+                    (negativeKwd.filter {name.lowercased().contains($0)} == [])
                 {
                     foundProducts[name] = product.xpath(Path.url.rawValue,
                                                         namespaces: namespaces)[0].content
@@ -290,12 +290,10 @@ struct ProductInfo {
             self.json = json
             
             guard let product = json["product"] as? [String:Any] else {return}
-            
             guard let variants : Array<Any> = product["variants"] as? Array<Any> else {return}
             
             for variant in variants {
                 guard let variant = variant as? Dictionary<String, Any> else{return}
-                
                 guard let size = variant["option1"] as? String else{return}
                 
                 if wantSize == Double(size){
