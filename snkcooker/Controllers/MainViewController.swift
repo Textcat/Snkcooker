@@ -115,10 +115,7 @@ class MainViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       // let newBot = ShopifyBot(target: BotTarget(site: .apbstore, loginEmail: "123", keywords: "", earlyLink: "", autoCheckout: true, quantity: 1, size: 9))
-        //newBot.searchProduct(ofSite: .a_ma_maniere, byKeywords: "+NikeLab+Air+Force-Yeezy")
         
-        //newBot.cop(withProductUrl: "https://www.apbstore.com/collections/new-arrivals/products/aj-13-altitude-414571-042-blk-grn")
         self.emailComboBox.delegate = self
         self.taskTableView.delegate = self
         self.taskTableView.dataSource = self
@@ -199,6 +196,7 @@ class MainViewController: NSViewController {
                                       quantity: quantityInt,
                                       size: sizeNum)
             let newTask = BotTask(target: newTarget)
+            newTask.bot.delegate = self
             self.tasks.append(newTask)
             
             self.taskTableView.reloadData()
@@ -324,6 +322,32 @@ extension MainViewController:NSTableViewDelegate, NSTableViewDataSource {
     func tableViewSelectionDidChange(_ notification: Notification) {
         self.stateReducer(tasks: self.tasks,
                           action: .selectTask(index: self.taskTableView.selectedRow))
+    }
+}
+
+extension MainViewController:ShopifyBotDelegate {
+    func productWillFound(id: String) {
+        let task = self.tasks.filter{$0.id == id}[0]
+        task.status = "Searching.."
+        self.taskTableView.reloadData()
+    }
+    
+    func productDidFound(id: String, productName: String) {
+        let task = self.tasks.filter{$0.id == id}[0]
+        task.status = "Found"
+        self.taskTableView.reloadData()
+    }
+    
+    func productDidAddedtoCart(id: String) {
+        let task = self.tasks.filter{$0.id == id}[0]
+        task.status = "Added to cart"
+        self.taskTableView.reloadData()
+    }
+    
+    func productDidCheckedout(id: String) {
+        let task = self.tasks.filter{$0.id == id}[0]
+        task.status = "Checked out"
+        self.taskTableView.reloadData()
     }
 }
 

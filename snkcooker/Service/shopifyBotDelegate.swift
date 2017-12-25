@@ -9,8 +9,8 @@
 import Foundation
 
 protocol ShopifyBotDelegate {
-    func productWillFound()
-    func productDidFound(productName:String)
-    func productDidAddedtoCart()
-    func productDidCheckedout()
+    func productWillFound(id:String)
+    func productDidFound(id:String, productName:String)
+    func productDidAddedtoCart(id:String)
+    func productDidCheckedout(id:String)
 }
