@@ -25,7 +25,7 @@ public class ShopifyBot {
     var session:SessionManager?
     var redirected_url:URL?
     
-    lazy var postDataManager  = PostData()
+    lazy var postDataManager = PostDataManager()
     
     init(target:BotTarget) {
         self.site = target.site
@@ -85,7 +85,9 @@ public class ShopifyBot {
                                       "quantity":productInfo.quantity]
         
         if let url = URL(string:post_url){
-            session.request(url, method: .post, parameters: post_data).response {response in
+            session.request(url,
+                            method: .post,
+                            parameters: post_data).response {response in
                 if response.response?.statusCode == 200 {
                     
                     self.delegate?.productDidAddedtoCart(id: self.id)
@@ -118,11 +120,13 @@ public class ShopifyBot {
     private func fillShipAddress(auth_token:String) {
         guard let url = self.redirected_url else {return}
         guard let session = self.session else {return}
-        var postData = self.postDataManager.genShippingData(with: auth_token,
-                                                            ofSite: self.site)
+        var postData = self.postDataManager.data(ofShipping: auth_token,
+                                                 ofSite: self.site)
         postData["checkout[email]"] = self.loginEmail
-    
-        session.request(url, method: .post, parameters: postData).response {response in
+
+        session.request(url,
+                        method: .post,
+                        parameters: postData).response {response in
             
             if response.error == nil,
                 let data = response.data,
@@ -139,10 +143,12 @@ public class ShopifyBot {
     private func selectShipMethod(auth_token:String, method:String) {
         guard let url = self.redirected_url else {return}
         guard let session = self.session else {return}
-        let postData = self.postDataManager.genShipMethodData(auth_token: auth_token,
-                                                              ship_method: method)
+        let postData = self.postDataManager.data(ofMethod:auth_token,
+                                                 ship_method: method)
     
-        session.request(url, method: .post, parameters: postData).response {response in
+        session.request(url,
+                        method: .post,
+                        parameters: postData).response {response in
             if response.error == nil,
                 let data = response.data,
                 let httpResponse = response.response ,
@@ -162,7 +168,11 @@ public class ShopifyBot {
         let postData = self.postDataManager.genCreditInfoData()
         guard let session = self.session else {return}
     
-        session.request(url, method: .post,parameters: postData,encoding: JSONEncoding.default).responseJSON{response in
+        session.request(url,
+                        method: .post,
+                        parameters: postData,
+                        encoding: JSONEncoding.default).responseJSON
+            {response in
             if let json = response.result.value as? [String:Any],
                 let sValue = json["id"] as? String{
                 
@@ -177,17 +187,17 @@ public class ShopifyBot {
     private func completePayment(authToken:String, price:String, gateway:String, sValue:String) {
         guard let url = self.redirected_url else {return}
         guard let session = self.session else {return}
-        let postData = self.postDataManager.genBillingData(with: authToken,
-                                                           sValue: sValue,
-                                                           price: price,
-                                                           payment_gateway: gateway)
+        let postData = self.postDataManager.data(ofBill: authToken,sValue: sValue,price: price,payment_gateway: gateway)
         
-        session.request(url, method: .post, parameters: postData).response {response in
+        session.request(url,
+                        method: .post,
+                        parameters: postData).response
+            {response in
             if response.error == nil,
                 let httpResponse = response.response ,
                 httpResponse.statusCode == 200 {
-                
                 self.delegate?.productDidCheckedout(id: self.id)
+                
             }
             self.session = nil
         }

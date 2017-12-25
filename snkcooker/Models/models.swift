@@ -147,7 +147,7 @@ struct Parser {
 }
 
 
-struct PostData {
+struct PostDataManager {
     var userShipConfig:[String:Any] = [:]
     var userbillConfig:[String:Any] = [:]
     var userCreditConfig:[String:Any] = [:]
@@ -161,7 +161,7 @@ struct PostData {
             }
         }
     
-    internal func genShippingData(with auth_token:String, ofSite:Site) -> [String:Any] {
+    internal func data(ofShipping auth_token:String, ofSite:Site) -> [String:Any] {
         var data_to_post = [String:Any]()
         data_to_post["utf8"] = "✓"
         data_to_post["_method"] = "patch"
@@ -205,7 +205,7 @@ struct PostData {
     }
     
     
-    internal func genBillingData(with auth_token:String, sValue:String, price:String, payment_gateway:String) -> [String:Any]{
+    internal func data(ofBill auth_token:String, sValue:String, price:String, payment_gateway:String) -> [String:Any]{
         var data_to_post = [String:Any]()
         data_to_post["utf8"] = "✓"
         data_to_post["_method"] = "patch"
@@ -238,7 +238,7 @@ struct PostData {
     }
     
     
-    internal func genShipMethodData(auth_token:String, ship_method:String) -> [String:Any] {
+    internal func data(ofMethod auth_token:String, ship_method:String) -> [String:Any] {
         var data_to_post = [String:Any]()
         
         data_to_post["utf8"] = "✓"

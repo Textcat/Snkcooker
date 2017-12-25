@@ -240,7 +240,8 @@ class MainViewController: NSViewController {
                            self.copySelecteButton]
             }
     }
-        if tasks.count == 0 {
+        if self.tasks.count == 0 {
+            
             disabled = [self.startSelectedButton,
                         self.startAllButton,
                         self.stopSelectedButton,
@@ -252,10 +253,12 @@ class MainViewController: NSViewController {
         }
         
         for button in enabled {
+            
             button.isEnabled = true
         }
         
         for button in disabled {
+            
             button.isEnabled = false
         }
     }
@@ -314,6 +317,16 @@ extension MainViewController:NSTableViewDelegate, NSTableViewDataSource {
         }
         if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentity), owner: nil) as? NSTableCellView {
             cell.textField?.stringValue = text
+            if cellIdentity == CellIdentifiers.statusCell {
+                switch text {
+                case "Added to cart":
+                    cell.textField?.backgroundColor = NSColor.yellow
+                case "Checked out":
+                    cell.textField?.backgroundColor = NSColor.green
+                default:
+                    break
+                }
+            }
             return cell
         }
         return nil
@@ -334,7 +347,7 @@ extension MainViewController:ShopifyBotDelegate {
     
     func productDidFound(id: String, productName: String) {
         let task = self.tasks.filter{$0.id == id}[0]
-        task.status = "Found"
+        task.status = "Product found"
         self.taskTableView.reloadData()
     }
     
