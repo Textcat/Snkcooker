@@ -43,7 +43,7 @@ public class ShopifyBot {
     
     public func cop() {
         if self.earlyLink == ""{
-            self.cop(withKeywords: [])
+            self.cop(withKeywords:self.keywords)
         }else {
             self.cop(withProductUrl: self.earlyLink)
         }
@@ -57,36 +57,43 @@ public class ShopifyBot {
         }
     }
     
-    private func cop(withKeywords keywords:Array<String>) {
+    private func cop(withKeywords keywords:String) {
+        self.delegate?.productWillFound()
+        self.searchProduct(ofSite: self.site, byKeywords: keywords)
 
     }
     
     private func cop(withProductUrl product_url:String) {
         guard let request_url = URL(string: "\(product_url).json") else {return}
         guard let session = self.session else {return}
+        
         session.request(request_url).responseData {response in
             if let data=response.data {
+                
                 let info = ProductInfo(data: data,
                                        wantSize: self.size,
                                        wantQuantity: self.quantity)
                 if info.quantity != 0 {
                     self.addToCart(productInfo: info)
                 }
+                
             }
         }
     }
     
     private func addToCart(productInfo:ProductInfo) {
-        print("Start adding to cart...")
-        let post_data:[String:Any] = ["id":productInfo.storeID, "quantity":productInfo.quantity]
         let post_url = "\(self.base_url)/cart/add.js"
+        guard let session = self.session else {return}
+        let post_data:[String:Any] = ["id":productInfo.storeID,
+                                      "quantity":productInfo.quantity]
         
         if let url = URL(string:post_url){
-            guard let session = self.session else {return}
             session.request(url, method: .post, parameters: post_data).response {response in
                 if response.response?.statusCode == 200 {
+                    
                     self.delegate?.productDidAddedtoCart()
                     self.toCheckout()
+                    
                 }
             }
         }
@@ -95,8 +102,8 @@ public class ShopifyBot {
     private func toCheckout() {
         let checkOutUrl = "\(self.base_url)/checkout"
         guard let url = URL(string: checkOutUrl) else {return}
-        
         guard let session = self.session else {return}
+        
         session.request(url).response {response in
             if response.error == nil,
                 let data = response.data,
@@ -114,39 +121,38 @@ public class ShopifyBot {
     }
     
     private func fillShipAddress(auth_token:String) {
-        if let url = self.redirected_url {
-            let postData = self.postDataManager.genShippingData(with: auth_token, ofSite: self.site)
-            
+            guard let url = self.redirected_url else {return}
             guard let session = self.session else {return}
+            let postData = self.postDataManager.genShippingData(with: auth_token,
+                                                                ofSite: self.site)
+        
             session.request(url, method: .post, parameters: postData).response {response in
                 
                 if response.error == nil,
                     let data = response.data,
                     let httpResponse = response.response ,
-                    httpResponse.statusCode == 200
-                {
+                    httpResponse.statusCode == 200{
                     
                     let urlContent = data.html
                     let values = Parser.parse(shipMethodPage: urlContent)
                     
                     self.selectShipMethod(auth_token: values.0, method: values.1)
                 }
-            }
         }
     }
     
     private func selectShipMethod(auth_token:String, method:String) {
-        if let url = self.redirected_url {
+            guard let url = self.redirected_url else {return}
+            guard let session = self.session else {return}
             let postData = self.postDataManager.genShipMethodData(auth_token: auth_token,
                                                                   ship_method: method)
-            
-            guard let session = self.session else {return}
+        
             session.request(url, method: .post, parameters: postData).response {response in
                 if response.error == nil,
                     let data = response.data,
                     let httpResponse = response.response ,
-                    httpResponse.statusCode == 200
-                {
+                    httpResponse.statusCode == 200{
+                    
                     let urlContent = data.html
                     let values = Parser.parse(paymentPage: urlContent)
                     
@@ -154,21 +160,18 @@ public class ShopifyBot {
                                         price: values.1,
                                         gateway: values.2)
                 }
-            }
         }
     }
     
     private func sendCreditInfo(authToken:String, price:String, gateway:String) {
-            let postData = self.postDataManager.genCreditInfoData()
             let url = "https://elb.deposit.shopifycs.com/sessions"
-        
+            let postData = self.postDataManager.genCreditInfoData()
             guard let session = self.session else {return}
-            session.request(url, method: .post,
-                            parameters: postData,
-                            encoding: JSONEncoding.default).responseJSON{response in
+        
+            session.request(url, method: .post,parameters: postData,encoding: JSONEncoding.default).responseJSON{response in
                 if let json = response.result.value as? [String:Any],
-                    let sValue = json["id"] as? String
-                {
+                    let sValue = json["id"] as? String{
+                    
                     self.completePayment(authToken: authToken,
                                          price: price,
                                          gateway: gateway,
@@ -178,29 +181,54 @@ public class ShopifyBot {
     }
     
     private func completePayment(authToken:String, price:String, gateway:String, sValue:String) {
-        if let url = self.redirected_url {
+            guard let url = self.redirected_url else {return}
+            guard let session = self.session else {return}
             let postData = self.postDataManager.genBillingData(with: authToken,
                                                                sValue: sValue,
                                                                price: price,
                                                                payment_gateway: gateway)
             
-            guard let session = self.session else {return}
             session.request(url, method: .post, parameters: postData).response {response in
-                if response.error == nil, let httpResponse = response.response ,
+                if response.error == nil,
+                    let httpResponse = response.response ,
                     httpResponse.statusCode == 200 {
+                    
                     self.delegate?.productDidCheckedout()
                 }
                 self.session = nil
             }
-        }
     }
 }
 
 typealias Keywords = (Array<String>,Array<String>)
 
 extension ShopifyBot {
-    private func searchProduct(ofSite site:Site, byKeywords keywords:Keywords) -> [String:String] {
-        return [:]
+    private func searchProduct(ofSite site:Site, byKeywords keywords:String){
+        var foundProduct:[String:String] = [:]
+        let siteMapUrl = "\(site.rawValue)/sitemap_products_1.xml"
+        
+        Alamofire.request(siteMapUrl).responseString {response in
+            if response.error == nil,
+                let httpResponse = response.response,
+                httpResponse.statusCode == 200,
+                let content = response.result.value
+            {
+                foundProduct = Parser.parse(siteMap: content, keywords: keywords)
+                if foundProduct.count == 0 {
+                    DispatchQueue.global().asyncAfter(deadline: .now() + 1.5) {
+                        self.searchProduct(ofSite: site, byKeywords: keywords)
+                    }
+                }else if foundProduct.count > 1 {
+                    
+                }else if foundProduct.count == 1,
+                    let urlStr = foundProduct.values.first,
+                    let name = foundProduct.keys.first
+                {
+                    self.delegate?.productDidFound(productName: name)
+                    self.cop(withProductUrl: urlStr)
+                }
+            }
+        }
     }
 }
 

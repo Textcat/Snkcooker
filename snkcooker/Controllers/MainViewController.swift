@@ -115,7 +115,9 @@ class MainViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //let newBot = ShopifyBot(target: BotTarget(site: .apbstore, quantity: 1, size: 9))
+       // let newBot = ShopifyBot(target: BotTarget(site: .apbstore, loginEmail: "123", keywords: "", earlyLink: "", autoCheckout: true, quantity: 1, size: 9))
+        //newBot.searchProduct(ofSite: .a_ma_maniere, byKeywords: "+NikeLab+Air+Force-Yeezy")
+        
         //newBot.cop(withProductUrl: "https://www.apbstore.com/collections/new-arrivals/products/aj-13-altitude-414571-042-blk-grn")
         self.emailComboBox.delegate = self
         self.taskTableView.delegate = self
@@ -313,7 +315,6 @@ extension MainViewController:NSTableViewDelegate, NSTableViewDataSource {
             cellIdentity = CellIdentifiers.statusCell
         }
         if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentity), owner: nil) as? NSTableCellView {
-            
             cell.textField?.stringValue = text
             return cell
         }

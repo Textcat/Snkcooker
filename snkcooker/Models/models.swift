@@ -84,13 +84,18 @@ struct Parser {
     }
     
     internal static func parse(paymentPage content:String) -> (String,String,String) {
-        let authPath = "//form[@data-payment-form='']/input[@name='authenticity_token']/@value"
-        let pricePath = "//input[@id='checkout_total_price']/@value"
+        enum Path:String {
+            case auth = "//form[@data-payment-form='']/input[@name='authenticity_token']/@value"
+            case price = "//input[@id='checkout_total_price']/@value"
+            case gateway = "//input[@name='checkout[payment_gateway]']"
+        }
+        
         do {
             let doc = try HTML(html: content, encoding: .utf8)
-            let authToken = doc.xpath(authPath)[0].content ?? ""
-            let gateway = doc.xpath("//input[@name='checkout[payment_gateway]']")[0].xpath("./@value")[0].content ?? ""
-            if let priceString = doc.xpath(pricePath)[0].content {
+            let authToken = doc.xpath(Path.auth.rawValue)[0].content ?? ""
+            let gateway = doc.xpath(Path.gateway.rawValue)[0].xpath("./@value")[0].content ?? ""
+            
+            if let priceString = doc.xpath(Path.price.rawValue)[0].content {
                 return (authToken, priceString, gateway)
                 
             }else {
@@ -98,6 +103,45 @@ struct Parser {
             }
         }catch {
             return ("","","")
+        }
+    }
+    
+    internal static func parse(siteMap content:String, keywords:String) -> [String:String] {
+        enum Path:String {
+            case products = "//d:url"
+            case name = ".//image:title/text()"
+            case url = "./d:loc/text()"
+        }
+
+        let keywords = keywords.keywords()
+        let positiveKwd = keywords.0
+        let negativeKwd = keywords.1
+        
+        var foundProducts:[String:String] = [:]
+        let namespaces = ["d":"http://www.sitemaps.org/schemas/sitemap/0.9",
+                          "image":"http://www.google.com/schemas/sitemap-image/1.1"]
+        
+        do {
+            let root = try Kanna.XML(xml:content, encoding: .utf8)
+            let products = root.xpath(Path.products.rawValue,
+                                      namespaces: namespaces).dropFirst()
+            
+            for product in products {
+                let productName = product.xpath(Path.name.rawValue,
+                                                namespaces: namespaces)[0].content
+
+                if let name = productName,
+                    (positiveKwd.filter{name.contains($0)}.count == positiveKwd.count),
+                    (negativeKwd.filter {name.contains($0)} == [])
+                {
+                    foundProducts[name] = product.xpath(Path.url.rawValue,
+                                                        namespaces: namespaces)[0].content
+                }
+            }
+            return foundProducts
+            
+        }catch {
+            return [:]
         }
     }
 }
