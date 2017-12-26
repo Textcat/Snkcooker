@@ -20,28 +20,28 @@ class BotTask:NSCopying {
     public var status = "Ready"
     
     init(target:BotTarget) {
-        self.id = UUID().uuidString
         if target.site == .bowsandarrows {
-            self.bot = FlatRateShopifyBot(target: target)
+            bot = FlatRateShopifyBot(target: target)
         }else {
-            self.bot = ShopifyBot(target: target)
+            bot = ShopifyBot(target: target)
         }
-        self.bot.id = self.id
-        self.site = String(describing: target.site)
-        self.size = target.size
+        id = UUID().uuidString
+        bot.id = id
+        site = String(describing: target.site)
+        size = target.size
         self.target = target
     }
     
     public func run() {
-        self.bot.cop()
+        bot.cop()
     }
     
     public func stop() {
-        self.bot.cancelCop()
+        bot.cancelCop()
     }
     
     func copy(with zone: NSZone? = nil) -> Any {
-        let botTask = BotTask(target: self.target)
+        let botTask = BotTask(target: target)
         
         return botTask
     }

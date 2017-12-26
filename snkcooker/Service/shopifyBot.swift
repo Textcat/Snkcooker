@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 public class ShopifyBot {
-    let base_url:String
+    let baseURLStr:String
     let quantity:Int
     let size:Double
     let autoCheckout:Bool
@@ -23,43 +23,43 @@ public class ShopifyBot {
     var delegate:ShopifyBotDelegate?
     
     var session:SessionManager?
-    var redirected_url:URL?
+    var redirectURL:URL?
     
     lazy var postDataManager = PostDataManager()
     
     init(target:BotTarget) {
-        self.site = target.site
-        self.quantity = target.quantity
-        self.size = target.size
-        self.autoCheckout = target.autoCheckout
-        self.earlyLink = target.earlyLink
-        self.base_url = target.site.rawValue
-        self.loginEmail = target.loginEmail
-        self.keywords = target.keywords
+        site = target.site
+        quantity = target.quantity
+        size = target.size
+        autoCheckout = target.autoCheckout
+        earlyLink = target.earlyLink
+        baseURLStr = target.site.rawValue
+        loginEmail = target.loginEmail
+        keywords = target.keywords
         
-        self.session = SessionManager(configuration:.ephemeral)
-        self.session?.retrier = RetryHandler()
+        session = SessionManager(configuration:.ephemeral)
+        session?.retrier = RetryHandler()
     }
     
     public func cop() {
-        if self.earlyLink == ""{
-            self.cop(withKeywords:self.keywords)
+        if earlyLink == ""{
+            cop(withKeywords: keywords)
         }else {
-            self.cop(withProductUrl: self.earlyLink)
+            cop(withProductUrl: earlyLink)
         }
     }
 
     
     public func cancelCop() {
-        self.session?.session.getAllTasks() {sessionTask in
+        session?.session.getAllTasks() {sessionTask in
             sessionTask.forEach{$0.cancel()}
             
         }
     }
     
     fileprivate func cop(withKeywords keywords:String) {
-        self.delegate?.productWillFound(id: self.id)
-        self.searchProduct(ofSite: self.site, byKeywords: keywords)
+        delegate?.productWillFound(id: id)
+        searchProduct(ofSite: site, byKeywords: keywords)
 
     }
     
@@ -76,6 +76,8 @@ public class ShopifyBot {
                 if info.quantity != 0 {
                     
                     self.addToCart(productInfo: info)
+                }else {
+                    self.delegate?.productOutOfStock(id: self.id)
                 }
             }
         }
@@ -110,7 +112,7 @@ public class ShopifyBot {
                 
                 let urlContent = data.html
                 let authToken = Parser.parse(checkoutPageby: urlContent)
-                self.redirected_url = httpResponse.url
+                self.redirectURL = httpResponse.url
                 self.fillShipAddress(auth_token: authToken)
             }
         }
@@ -205,32 +207,32 @@ public class ShopifyBot {
             
             return (url, session, [:])
         case .AddtoCart(let productInfo):
-            guard let url = URL(string:"\(self.base_url)/cart/add.js") else {return nil}
+            guard let url = URL(string:"\(baseURLStr)/cart/add.js") else {return nil}
             let postData:[String:Any] = ["id":productInfo.storeID,"quantity":productInfo.quantity]
 
             return (url, session, postData)
         case .StartCheckout:
-            guard let url = URL(string:"\(self.base_url)/checkout") else {return nil}
+            guard let url = URL(string:"\(baseURLStr)/checkout") else {return nil}
             
             return (url, session, [:])
         case .FillShipAddress(let authToken):
-            guard let url = self.redirected_url else {return nil}
-            let postData = self.postDataManager.data(ofShipping: authToken,ofSite: self.site, email:self.loginEmail)
+            guard let url = redirectURL else {return nil}
+            let postData = postDataManager.data(ofShipping: authToken,ofSite: site, email:loginEmail)
 
             return (url,session,postData)
         case .SelectShipMethod(let authToken, let method):
-            guard let url = self.redirected_url else {return nil}
-            let postData = self.postDataManager.data(ofMethod:authToken,ship_method: method)
+            guard let url = redirectURL else {return nil}
+            let postData = postDataManager.data(ofMethod:authToken,ship_method: method)
             
             return (url, session, postData)
         case .SendCreditCard:
             guard let url = URL(string:"https://elb.deposit.shopifycs.com/sessions") else {return nil}
-            let postData = self.postDataManager.genCreditInfoData()
+            let postData = postDataManager.genCreditInfoData()
 
             return (url, session, postData)
         case .Complete(let authToken,let price, let gateway, let sValue):
-            guard let url = self.redirected_url else {return nil}
-            let postData = self.postDataManager.data(ofBill: authToken,sValue: sValue,price: price,payment_gateway: gateway)
+            guard let url = redirectURL else {return nil}
+            let postData = postDataManager.data(ofBill: authToken,sValue: sValue,price: price,payment_gateway: gateway)
 
             return (url,session,postData)
         }
@@ -252,6 +254,7 @@ extension ShopifyBot {
                 
                 foundProduct = Parser.parse(siteMap: content, keywords: keywords)
                 if foundProduct.count == 0 {
+                    self.delegate?.productNotFoundYet(id: self.id)
                     DispatchQueue.global().asyncAfter(deadline: .now() + 1.5) {
                         self.searchProduct(ofSite: site, byKeywords: keywords)
                     }
@@ -288,11 +291,9 @@ public class FlatRateShopifyBot:ShopifyBot {
     }
     
     fileprivate func fetchShippingRate() {
-        guard let baseURL = self.redirected_url else {return}
-        let redirectedURLStr = String(describing: baseURL)
-        let rateURLStr = "\(redirectedURLStr)/shipping_rates?step=shipping_method"
-        
-        guard let session = self.session else {return}
+        guard let session = session else {return}
+        guard let redirectURL = redirectURL else {return}
+        let rateURLStr = "\(redirectURL.absoluteString)/shipping_rates?step=shipping_method"
         
         session.request(rateURLStr).response {response in
             if response.error == nil,

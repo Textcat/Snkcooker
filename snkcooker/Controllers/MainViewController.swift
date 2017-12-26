@@ -44,15 +44,14 @@ class MainViewController: NSViewController {
     
     @IBAction func addTask(_ sender: NSButton) {
         let quantity = 1
-        let emailStr = self.emailComboBox.stringValue
-        let kwdStr = self.kwdTextField.stringValue
-        let linkStr = self.earlyLinkTextField.stringValue
-        let auCheckoutInt = self.autoCheckoutButton.state.rawValue
-        let sizeStr = self.sizeTextField.stringValue
-        guard let siteStr = self.siteSelector.selectedItem?.title else {return}
+        let emailStr = emailComboBox.stringValue
+        let kwdStr = kwdTextField.stringValue
+        let linkStr = earlyLinkTextField.stringValue
+        let auCheckoutInt = autoCheckoutButton.state.rawValue
+        let sizeStr = sizeTextField.stringValue
+        guard let siteStr = siteSelector.selectedItem?.title else {return}
         
-        self.stateReducer(tasks: self.tasks,
-                          action: .newTask(siteStr: siteStr,
+        self.stateReducer(action: .newTask(siteStr: siteStr,
                                            email: emailStr,
                                            kwd: kwdStr,
                                            link: linkStr,
@@ -63,9 +62,9 @@ class MainViewController: NSViewController {
     }
     
     @IBAction func startSelectedTask(_ sender: NSButton) {
-        let index = self.taskTableView.selectedRow
+        let index = taskTableView.selectedRow
         
-        self.tasks[index].run()
+        tasks[index].run()
     }
     
     @IBAction func startAllTasks(_ sender: NSButton) {
@@ -75,9 +74,9 @@ class MainViewController: NSViewController {
     }
     
     @IBAction func stopSelectedTask(_ sender: NSButton) {
-        let index = self.taskTableView.selectedRow
+        let index = taskTableView.selectedRow
         
-        self.tasks[index].stop()
+        tasks[index].stop()
     }
     
     @IBAction func stopAllTasks(_ sender: NSButton) {
@@ -87,25 +86,25 @@ class MainViewController: NSViewController {
     }
     
     @IBAction func deleteSelectedTask(_ sender: NSButton) {
-        let index = self.taskTableView.selectedRow
+        let index = taskTableView.selectedRow
         
-        self.tasks.remove(at: index)
-        self.stateReducer(tasks: self.tasks, action: .deleteTask)
+        tasks.remove(at: index)
+        stateReducer(action: .deleteTask)
 
     }
     
     @IBAction func deleteAllTasks(_ sender: NSButton) {
-        self.tasks = []
-        self.stateReducer(tasks: self.tasks, action: .deleteTask)
+        tasks = []
+        stateReducer(action: .deleteTask)
 
     }
     
     @IBAction func copySelectedTask(_ sender: NSButton) {
-        let index = self.taskTableView.selectedRow
-        let copiedNewTask = self.tasks[index].copy() as! BotTask
+        let index = taskTableView.selectedRow
+        let copiedNewTask = tasks[index].copy() as! BotTask
         
-        self.tasks.append(copiedNewTask)
-        self.stateReducer(tasks: self.tasks, action: .copySelectedTask)
+        tasks.append(copiedNewTask)
+        stateReducer(action: .copySelectedTask)
 
     }
     
@@ -116,22 +115,22 @@ class MainViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.emailComboBox.delegate = self
-        self.taskTableView.delegate = self
-        self.taskTableView.dataSource = self
+        emailComboBox.delegate = self
+        taskTableView.delegate = self
+        taskTableView.dataSource = self
         
-        self.loadSiteSelector()
+        loadSiteSelector()
     }
     
     private func loadSiteSelector() {
-        self.siteSelector.addItems(withTitles: Site.allSites)
+        siteSelector.addItems(withTitles: Site.allSites)
     }
     
     private func loadEmailSelector() {
-        self.emailData = EmailsData()
-        if let abbrs = self.emailData?.abbrs {
-            self.emailComboBox.removeAllItems()
-            self.emailComboBox.addItems(withObjectValues: abbrs)
+        emailData = EmailsData()
+        if let abbrs = emailData?.abbrs {
+            emailComboBox.removeAllItems()
+            emailComboBox.addItems(withObjectValues: abbrs)
         }
     }
     
@@ -148,7 +147,7 @@ class MainViewController: NSViewController {
         case copySelectedTask
     }
     
-    private func stateReducer(tasks:Array<BotTask>, action:Actions) {
+    private func stateReducer(action:Actions) {
         var enabled:Array<NSButton> = []
         var disabled:Array<NSButton> = []
         
@@ -166,20 +165,20 @@ class MainViewController: NSViewController {
             }else if emailStr.isValidEmail(){
                 email = emailStr
             }else {
-                self.emailComboBox.becomeFirstResponder()
+                emailComboBox.becomeFirstResponder()
                 return
             }
             
             let size = sizeStr
             guard let sizeNum = Double(size) else {return}
             if !size.isValidSize() {
-                self.sizeTextField.becomeFirstResponder()
+                sizeTextField.becomeFirstResponder()
                 return
             }
             
             let kwd = kwdStr
             if !kwd.isValidKeywords() {
-                self.kwdTextField.becomeFirstResponder()
+                kwdTextField.becomeFirstResponder()
                 return
             }
             let link = linkStr
@@ -197,58 +196,58 @@ class MainViewController: NSViewController {
                                       size: sizeNum)
             let newTask = BotTask(target: newTarget)
             newTask.bot.delegate = self
-            self.tasks.append(newTask)
+            tasks.append(newTask)
             
-            self.taskTableView.reloadData()
+            taskTableView.reloadData()
             
-            disabled = [self.startSelectedButton,
-                        self.stopSelectedButton,
-                        self.deleteSelected,
-                        self.copySelecteButton]
-            enabled = [self.startAllButton,
-                       self.stopAllButton,
-                       self.deleteAllButton]
+            disabled = [startSelectedButton,
+                        stopSelectedButton,
+                        deleteSelected,
+                        copySelecteButton]
+            enabled = [startAllButton,
+                       stopAllButton,
+                       deleteAllButton]
             
         case .deleteTask, .copySelectedTask:
-            disabled = [self.startSelectedButton,
-                        self.stopSelectedButton,
-                        self.deleteSelected,
-                        self.copySelecteButton]
-            enabled = [self.startAllButton,
-                       self.stopAllButton,
-                       self.deleteAllButton]
+            disabled = [startSelectedButton,
+                        stopSelectedButton,
+                        deleteSelected,
+                        copySelecteButton]
+            enabled = [startAllButton,
+                       stopAllButton,
+                       deleteAllButton]
             
-            self.taskTableView.reloadData()
+            taskTableView.reloadData()
             
         case .selectTask(let index):
             if index == -1 {
-                disabled = [self.startSelectedButton,
-                            self.stopSelectedButton,
-                            self.deleteSelected,
-                            self.copySelecteButton]
-                enabled = [self.startAllButton,
-                           self.stopAllButton,
-                           self.deleteAllButton]
+                disabled = [startSelectedButton,
+                            stopSelectedButton,
+                            deleteSelected,
+                            copySelecteButton]
+                enabled = [startAllButton,
+                           stopAllButton,
+                           deleteAllButton]
                 
             }else {
-                enabled = [self.startSelectedButton,
-                           self.startAllButton,
-                           self.stopSelectedButton,
-                           self.stopAllButton,
-                           self.deleteSelected,
-                           self.deleteAllButton,
-                           self.copySelecteButton]
+                enabled = [startSelectedButton,
+                           startAllButton,
+                           stopSelectedButton,
+                           stopAllButton,
+                           deleteSelected,
+                           deleteAllButton,
+                           copySelecteButton]
             }
     }
         if self.tasks.count == 0 {
             
-            disabled = [self.startSelectedButton,
-                        self.startAllButton,
-                        self.stopSelectedButton,
-                        self.stopAllButton,
-                        self.deleteSelected,
-                        self.deleteAllButton,
-                        self.copySelecteButton]
+            disabled = [startSelectedButton,
+                        startAllButton,
+                        stopSelectedButton,
+                        stopAllButton,
+                        deleteSelected,
+                        deleteAllButton,
+                        copySelecteButton]
             enabled = []
         }
         
@@ -266,7 +265,7 @@ class MainViewController: NSViewController {
 
 extension MainViewController:NSComboBoxDelegate {
     func comboBoxWillPopUp(_ notification: Notification) {
-        self.loadEmailSelector()
+        loadEmailSelector()
     }
 }
 
@@ -282,7 +281,7 @@ extension MainViewController:NSTableViewDelegate, NSTableViewDataSource {
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        let taskCount = self.tasks.count
+        let taskCount = tasks.count
             return taskCount
     }
     
@@ -323,6 +322,8 @@ extension MainViewController:NSTableViewDelegate, NSTableViewDataSource {
                     cell.textField?.backgroundColor = NSColor.yellow
                 case "Checked out":
                     cell.textField?.backgroundColor = NSColor.green
+                case "Waiting for restock...":
+                    cell.textField?.backgroundColor = NSColor.orange
                 default:
                     break
                 }
@@ -333,34 +334,40 @@ extension MainViewController:NSTableViewDelegate, NSTableViewDataSource {
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
-        self.stateReducer(tasks: self.tasks,
-                          action: .selectTask(index: self.taskTableView.selectedRow))
+        stateReducer(action: .selectTask(index: taskTableView.selectedRow))
     }
 }
 
 extension MainViewController:ShopifyBotDelegate {
+    func productOutOfStock(id: String) {
+        let task = tasks.filter{$0.id == id}[0]
+        task.status = "Waiting for restock..."
+        taskTableView.reloadData()
+
+    }
+    
     func productWillFound(id: String) {
-        let task = self.tasks.filter{$0.id == id}[0]
+        let task = tasks.filter{$0.id == id}[0]
         task.status = "Searching.."
-        self.taskTableView.reloadData()
+        taskTableView.reloadData()
     }
     
     func productDidFound(id: String, productName: String) {
-        let task = self.tasks.filter{$0.id == id}[0]
+        let task = tasks.filter{$0.id == id}[0]
         task.status = "Product found"
-        self.taskTableView.reloadData()
+        taskTableView.reloadData()
     }
     
     func productDidAddedtoCart(id: String) {
-        let task = self.tasks.filter{$0.id == id}[0]
+        let task = tasks.filter{$0.id == id}[0]
         task.status = "Added to cart"
-        self.taskTableView.reloadData()
+        taskTableView.reloadData()
     }
     
     func productDidCheckedout(id: String) {
-        let task = self.tasks.filter{$0.id == id}[0]
+        let task = tasks.filter{$0.id == id}[0]
         task.status = "Checked out"
-        self.taskTableView.reloadData()
+        taskTableView.reloadData()
     }
 }
 
