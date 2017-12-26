@@ -188,7 +188,7 @@ struct PostDataManager {
         switch ofSite {
         case .bowsandarrows:
             add_data = ["checkout[buyer_accepts_marketing]":"0",
-                        "checkout[remember_me]":["0":"false","1":"0"]]
+                        "checkout[remember_me]":"0"]
         case .rockcitykicks:
             add_data = ["checkout[buyer_accepts_marketing]":["0","1"]]
         case .exclucitylife:
