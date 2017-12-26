@@ -35,6 +35,7 @@ extension Data {
         return String(describing: NSString(data: self, encoding: String.Encoding.utf8.rawValue))
     }
 }
+typealias Keywords = (Array<String>,Array<String>)
 
 extension String {
     internal func isValidEmail() -> Bool {

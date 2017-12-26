@@ -21,7 +21,11 @@ class BotTask:NSCopying {
     
     init(target:BotTarget) {
         self.id = UUID().uuidString
-        self.bot = ShopifyBot(target: target)
+        if target.site == .bowsandarrows {
+            self.bot = FlatRateShopifyBot(target: target)
+        }else {
+            self.bot = ShopifyBot(target: target)
+        }
         self.bot.id = self.id
         self.site = String(describing: target.site)
         self.size = target.size
@@ -161,14 +165,14 @@ struct PostDataManager {
             }
         }
     
-    internal func data(ofShipping auth_token:String, ofSite:Site) -> [String:Any] {
+    internal func data(ofShipping auth_token:String, ofSite:Site, email:String) -> [String:Any] {
         var data_to_post = [String:Any]()
         data_to_post["utf8"] = "✓"
         data_to_post["_method"] = "patch"
         data_to_post["authenticity_token"] = auth_token
         data_to_post["previous_step"] = "contact_information"
         data_to_post["step"] = "shipping_method"
-        data_to_post["checkout[email]"] = "luiyezheng123@gmail.com"
+        data_to_post["checkout[email]"] = email
         data_to_post["checkout[shipping_address][first_name]"] = self.userShipConfig["firstName"]
         data_to_post["checkout[shipping_address][last_name]"] = self.userShipConfig["lastName"]
         data_to_post["checkout[shipping_address][company]"] = ""
