@@ -43,6 +43,7 @@ internal class CapSolver {
             if let json = response.result.value as? [String:Any] {
                 if Array(json.keys).contains("solution"),let solution:[String:String] = json["solution"] as? [String:String] {
                     guard let response = solution["gRecaptchaResponse"] else {return}
+                    
                     completion(response)
                 }else {
                     print(json)

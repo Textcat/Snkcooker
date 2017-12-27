@@ -95,7 +95,7 @@ struct Parser {
         do {
             let doc = try HTML(html: content, encoding: .utf8)
             let authToken = doc.xpath(authPath)[0].content ?? ""
-            let method = doc.xpath(methodPath).filter({$0.content?.contains("pick") == false})[0].content ?? ""
+            let method = doc.xpath(methodPath).filter({$0.content?.lowercased().contains("pick") == false})[0].content ?? ""
             
             return (authToken,method)
         }catch {
@@ -143,23 +143,27 @@ struct Parser {
         
         do {
             let root = try Kanna.XML(xml:content, encoding: .utf8)
+            
             let products = root.xpath(Path.products.rawValue,
                                       namespaces: namespaces).dropFirst()
             
+            
             for product in products {
-                let productName = product.xpath(Path.name.rawValue,
-                                                namespaces: namespaces)[0].content
-
-                if let name = productName,
-                    (positiveKwd.filter{name.lowercased().contains($0)}.count == positiveKwd.count),
-                    (negativeKwd.filter {name.lowercased().contains($0)} == [])
-                {
-                    foundProducts[name] = product.xpath(Path.url.rawValue,
-                                                        namespaces: namespaces)[0].content
+                let nodeSet = product.xpath(Path.name.rawValue,namespaces: namespaces)
+                if nodeSet.count == 0 {
+                    continue
+                }else {
+                    let productName = nodeSet[0].content
+                    if let name = productName,
+                        (positiveKwd.filter{name.lowercased().contains($0)}.count == positiveKwd.count),
+                        (negativeKwd.filter {name.lowercased().contains($0)} == []){
+                        
+                        foundProducts[name] = product.xpath(Path.url.rawValue,
+                                                            namespaces: namespaces)[0].content
+                    }
                 }
             }
             return foundProducts
-            
         }catch {
             return [:]
         }
@@ -215,13 +219,13 @@ struct PostDataManager {
         var add_data = [String:Any]()
         switch ofSite {
         case .bowsandarrows:
-            add_data = ["checkout[buyer_accepts_marketing]":"0",
+            add_data = ["checkout[buyer_accepts_marketing]":"1",
                         "checkout[remember_me]":"0"]
         case .rockcitykicks:
-            add_data = ["checkout[buyer_accepts_marketing]":["0","1"]]
+            add_data = ["checkout[buyer_accepts_marketing]":"1"]
         case .exclucitylife:
-            add_data = ["checkout[remember_me]":["0","false"],
-                        "checkout[buyer_accepts_marketing]":"0"]
+            add_data = ["checkout[remember_me]":"false",
+                        "checkout[buyer_accepts_marketing]":"1"]
         case .notre,.apbstore:
             add_data = ["checkout[buyer_accepts_marketing]":"0"]
         default:
