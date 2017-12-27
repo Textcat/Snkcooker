@@ -273,6 +273,11 @@ extension ShopifyBot {
 }
 
 
+public class CaptchaRequestShopifyBot:ShopifyBot {
+    
+}
+
+
 public class FlatRateShopifyBot:ShopifyBot {
     override fileprivate func fillShipAddress(auth_token:String) {
         guard let values = requestPrepare(step: .FillShipAddress(authToken: auth_token)) else {return}
