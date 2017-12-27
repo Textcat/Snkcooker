@@ -115,11 +115,10 @@ public class ShopifyBot {
     }
     
     fileprivate func toCheckoutHandler(data:Data, response:HTTPURLResponse) {
+        self.redirectURL = response.url
         let urlContent = data.html
-        
         let authToken = Parser.parse(checkoutPageby: urlContent)
         
-        self.redirectURL = response.url
         self.fillShipAddress(auth_token: authToken,captchaSolution: "")
         
     }

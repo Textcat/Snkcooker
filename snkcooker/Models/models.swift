@@ -9,6 +9,20 @@
 import Foundation
 import Kanna
 
+struct BotTarget {
+    let site:Site
+    let loginEmail:String
+    let keywords:String
+    let earlyLink:String
+    let autoCheckout:Bool
+    var quantity:Int
+    var size:Double
+}
+
+
+
+
+
 class BotTask:NSCopying {
     public let site:String
     public let size:Double
@@ -20,11 +34,18 @@ class BotTask:NSCopying {
     public var status = "Ready"
     
     init(target:BotTarget) {
-        if target.site == .bowsandarrows {
+        
+        switch target.site {
+        case .rockcitykicks,
+             .exclucitylife:
+            bot = CaptchaRequestShopifyBot(target: target)
+        case .bowsandarrows, 
+             .shoegallerymiami:
             bot = FlatRateShopifyBot(target: target)
-        }else {
+        default:
             bot = ShopifyBot(target: target)
         }
+        
         id = UUID().uuidString
         bot.id = id
         site = String(describing: target.site)
@@ -47,15 +68,10 @@ class BotTask:NSCopying {
     }
 }
 
-struct BotTarget {
-    let site:Site
-    let loginEmail:String
-    let keywords:String
-    let earlyLink:String
-    let autoCheckout:Bool
-    var quantity:Int
-    var size:Double
-}
+
+
+
+
 
 struct Parser {
     internal static func parse(checkoutPageby content:String) -> String {
@@ -149,6 +165,11 @@ struct Parser {
         }
     }
 }
+
+
+
+
+
 
 
 struct PostDataManager {
@@ -280,6 +301,11 @@ struct PostDataManager {
 }
 
 
+
+
+
+
+
 struct ProductInfo {
     private var json:[String:Any] = [:]
     var productName:String? {
@@ -328,7 +354,14 @@ struct ProductInfo {
 }
 
 
+
+
 typealias emails = [Dictionary<String, String>]
+
+
+
+
+
 
 
 struct EmailsData {
