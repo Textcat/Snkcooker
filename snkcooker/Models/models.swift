@@ -165,7 +165,7 @@ struct PostDataManager {
             }
         }
     
-    internal func data(ofShipping auth_token:String, ofSite:Site, email:String) -> [String:Any] {
+    internal func data(ofShipping auth_token:String, ofSite:Site, email:String, captchaSolution:String) -> [String:Any] {
         var data_to_post = [String:Any]()
         data_to_post["utf8"] = "✓"
         data_to_post["_method"] = "patch"
@@ -187,6 +187,9 @@ struct PostDataManager {
         data_to_post["checkout[client_details][browser_width]"] = "1170"
         data_to_post["checkout[client_details][browser_height]"] = "711"
         data_to_post["checkout[client_details][javascript_enabled]"] = "1"
+        if captchaSolution != "" {
+            data_to_post["g-recaptcha-response"] = captchaSolution
+        }
         
         var add_data = [String:Any]()
         switch ofSite {

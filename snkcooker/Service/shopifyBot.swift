@@ -48,7 +48,7 @@ public class ShopifyBot {
             cop(withProductUrl: earlyLink)
         }
     }
-
+    
     
     public func cancelCop() {
         session?.session.getAllTasks() {sessionTask in
@@ -60,7 +60,7 @@ public class ShopifyBot {
     fileprivate func cop(withKeywords keywords:String) {
         delegate?.productWillFound(id: id)
         searchProduct(ofSite: site, byKeywords: keywords)
-
+        
     }
     
     fileprivate func cop(withProductUrl product_url:String) {
@@ -74,7 +74,6 @@ public class ShopifyBot {
                 
                 let info = ProductInfo(data: data,wantSize: self.size,wantQuantity: self.quantity)
                 if info.quantity != 0 {
-                    
                     self.addToCart(productInfo: info)
                 }else {
                     self.delegate?.productOutOfStock(id: self.id)
@@ -95,8 +94,8 @@ public class ShopifyBot {
                 
                 self.delegate?.productDidAddedtoCart(id: self.id)
                 self.toCheckout()
-                }
             }
+        }
     }
     
     fileprivate func toCheckout() {
@@ -110,31 +109,45 @@ public class ShopifyBot {
                 let httpResponse = response.response ,
                 httpResponse.statusCode == 200 {
                 
-                let urlContent = data.html
-                let authToken = Parser.parse(checkoutPageby: urlContent)
-                self.redirectURL = httpResponse.url
-                self.fillShipAddress(auth_token: authToken)
+                self.toCheckoutHandler(data: data, response:httpResponse)
             }
         }
     }
     
-    fileprivate func fillShipAddress(auth_token:String) {
-        guard let values = requestPrepare(step: .FillShipAddress(authToken: auth_token)) else {return}
+    fileprivate func toCheckoutHandler(data:Data, response:HTTPURLResponse) {
+        let urlContent = data.html
+        
+        let authToken = Parser.parse(checkoutPageby: urlContent)
+        
+        self.redirectURL = response.url
+        self.fillShipAddress(auth_token: authToken,captchaSolution: "")
+        
+    }
+    
+    fileprivate func fillShipAddress(auth_token:String, captchaSolution:String) {
+        guard let values = requestPrepare(step: .FillShipAddress(authToken: auth_token, captchaSolution: captchaSolution)) else {return}
         let url = values.0
         let session = values.1
         let postData = values.2
-
+        
         session.request(url,method: .post,parameters: postData).response {response in
             if response.error == nil,
                 let data = response.data,
                 let httpResponse = response.response ,
                 httpResponse.statusCode == 200{
                 
-                let urlContent = data.html
-                let values = Parser.parse(shipMethodPage: urlContent)
-                self.selectShipMethod(auth_token: values.0, method: values.1)
+                self.fillShipAddressHandler(data: data)
             }
         }
+    }
+    
+    fileprivate func fillShipAddressHandler(data:Data) {
+        
+        let urlContent = data.html
+        let values = Parser.parse(shipMethodPage: urlContent)
+        
+        self.selectShipMethod(auth_token: values.0, method: values.1)
+        
     }
     
     fileprivate func selectShipMethod(auth_token:String, method:String) {
@@ -142,7 +155,7 @@ public class ShopifyBot {
         let url = values.0
         let session = values.1
         let postData = values.2
-    
+        
         session.request(url,method: .post,parameters: postData).response {response in
             if response.error == nil,
                 let data = response.data,
@@ -161,7 +174,7 @@ public class ShopifyBot {
         let url = values.0
         let session = values.1
         let postData = values.2
-    
+        
         session.request(url,method: .post,parameters: postData,encoding: JSONEncoding.default).responseJSON{response in
             if let json = response.result.value as? [String:Any],
                 let sValue = json["id"] as? String{
@@ -192,7 +205,7 @@ public class ShopifyBot {
         case StartCop(productURL:String)
         case AddtoCart(productInfo:ProductInfo)
         case StartCheckout
-        case FillShipAddress(authToken:String)
+        case FillShipAddress(authToken:String,captchaSolution:String)
         case SelectShipMethod(authToken:String,method:String)
         case SendCreditCard
         case Complete(authToken:String, price:String, gateway:String, sValue:String)
@@ -209,16 +222,16 @@ public class ShopifyBot {
         case .AddtoCart(let productInfo):
             guard let url = URL(string:"\(baseURLStr)/cart/add.js") else {return nil}
             let postData:[String:Any] = ["id":productInfo.storeID,"quantity":productInfo.quantity]
-
+            
             return (url, session, postData)
         case .StartCheckout:
             guard let url = URL(string:"\(baseURLStr)/checkout") else {return nil}
             
             return (url, session, [:])
-        case .FillShipAddress(let authToken):
+        case .FillShipAddress(let authToken,let captchaSolution):
             guard let url = redirectURL else {return nil}
-            let postData = postDataManager.data(ofShipping: authToken,ofSite: site, email:loginEmail)
-
+            let postData = postDataManager.data(ofShipping: authToken,ofSite: site, email:loginEmail, captchaSolution:captchaSolution)
+            
             return (url,session,postData)
         case .SelectShipMethod(let authToken, let method):
             guard let url = redirectURL else {return nil}
@@ -228,12 +241,12 @@ public class ShopifyBot {
         case .SendCreditCard:
             guard let url = URL(string:"https://elb.deposit.shopifycs.com/sessions") else {return nil}
             let postData = postDataManager.genCreditInfoData()
-
+            
             return (url, session, postData)
         case .Complete(let authToken,let price, let gateway, let sValue):
             guard let url = redirectURL else {return nil}
             let postData = postDataManager.data(ofBill: authToken,sValue: sValue,price: price,payment_gateway: gateway)
-
+            
             return (url,session,postData)
         }
     }
@@ -274,25 +287,30 @@ extension ShopifyBot {
 
 
 public class CaptchaRequestShopifyBot:ShopifyBot {
+    override fileprivate func toCheckoutHandler(data: Data, response: HTTPURLResponse) {
+        let urlContent = data.html
+        let authToken = Parser.parse(checkoutPageby: urlContent)
+        self.redirectURL = response.url
+        
+        solveCaptcha(authToken: authToken)
+    }
     
+    fileprivate func solveCaptcha(authToken:String) {
+        guard let urlStr = self.redirectURL?.absoluteString else {return}
+        let solver = CapSolver(pUrl: urlStr)
+        
+        solver?.startSolve() {solution in
+            self.fillShipAddress(auth_token: authToken,captchaSolution: solution)
+            
+        }
+    }
 }
 
 
 public class FlatRateShopifyBot:ShopifyBot {
-    override fileprivate func fillShipAddress(auth_token:String) {
-        guard let values = requestPrepare(step: .FillShipAddress(authToken: auth_token)) else {return}
-        let url = values.0
-        let session = values.1
-        let postData = values.2
-        
-        session.request(url,method: .post,parameters: postData).response {response in
-            if response.error == nil,
-                let httpResponse = response.response ,
-                httpResponse.statusCode == 200{
-                
-                self.fetchShippingRate()
-            }
-        }
+    
+    override fileprivate func fillShipAddressHandler(data:Data) {
+        self.fetchShippingRate()
     }
     
     fileprivate func fetchShippingRate() {
@@ -317,23 +335,3 @@ public class FlatRateShopifyBot:ShopifyBot {
         }
     }
 }
-
-
-private class RetryHandler:RequestRetrier {
-    public func should(_ manager: SessionManager,
-                       retry request: Request,
-                       with error: Error,
-                       completion: @escaping RequestRetryCompletion)
-    {
-        if let task = request.task,
-            let response = task.response as? HTTPURLResponse,
-            response.statusCode != 400,
-            response.statusCode != 404
-        {
-            completion(true, 1.0) // retry after 1 second
-        } else {
-            completion(false, 0.0) // don't retry
-        }
-    }
-}
-
