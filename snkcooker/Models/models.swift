@@ -14,7 +14,6 @@ struct BotTarget {
     let loginEmail:String
     let keywords:String
     let earlyLink:String
-    let autoCheckout:Bool
     var quantity:Int
     var size:Double
 }

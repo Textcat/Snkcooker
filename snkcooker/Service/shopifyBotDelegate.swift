@@ -14,7 +14,7 @@ protocol ShopifyBotDelegate {
     func productNotFoundYet(id:String)
     func productOutOfStock(id:String)
     func productDidAddedtoCart(id:String)
-    func productDidCheckedout(id:String)
+    func productDidCheckedout(id:String,url:URL)
 }
 
 extension ShopifyBotDelegate {

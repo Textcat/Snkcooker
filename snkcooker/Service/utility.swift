@@ -73,8 +73,10 @@ extension String {
         let positiveRegex = try! NSRegularExpression(pattern: positivePat, options: [])
         let negativeRegex = try! NSRegularExpression(pattern: negativePat, options: [])
         // (4):
-        let positiveMatchs = positiveRegex.matches(in: self, options: [], range: NSRange(location: 0, length: self.count))
-        let negativeMatchs = negativeRegex.matches(in: self, options: [], range: NSRange(location: 0, length: self.count))
+        let positiveMatchs = positiveRegex.matches(in: self, options: [],
+                                                   range: NSRange(location: 0, length: self.count))
+        let negativeMatchs = negativeRegex.matches(in: self, options: [],
+                                                   range: NSRange(location: 0, length: self.count))
         
         for match in positiveMatchs {
             if let range = Range(match.range, in:self) {
@@ -133,7 +135,9 @@ internal class PlistDicManager{
         if !fileManager.fileExists(atPath: path) {
             
             do {
-                try fileManager.createDirectory(atPath: NSHomeDirectory()+"/snkcooker", withIntermediateDirectories: true, attributes:nil)
+                try fileManager.createDirectory(atPath: NSHomeDirectory()+"/snkcooker",
+                                                withIntermediateDirectories: true,
+                                                attributes:nil)
                 let srcPath = Bundle.main.path(forResource: "userconfig", ofType: "plist")
                 
                 do {

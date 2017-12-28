@@ -47,7 +47,6 @@ class MainViewController: NSViewController {
         let emailStr = emailComboBox.stringValue
         let kwdStr = kwdTextField.stringValue
         let linkStr = earlyLinkTextField.stringValue
-        let auCheckoutInt = autoCheckoutButton.state.rawValue
         let sizeStr = sizeTextField.stringValue
         guard let siteStr = siteSelector.selectedItem?.title else {return}
         
@@ -55,7 +54,6 @@ class MainViewController: NSViewController {
                                            email: emailStr,
                                            kwd: kwdStr,
                                            link: linkStr,
-                                           autoCheckout: auCheckoutInt,
                                            quantity: quantity,
                                            size: sizeStr))
         
@@ -118,6 +116,8 @@ class MainViewController: NSViewController {
         emailComboBox.delegate = self
         taskTableView.delegate = self
         taskTableView.dataSource = self
+        taskTableView.target = self
+        taskTableView.doubleAction = #selector(tableViewDoubleClicked(_:))
         
         loadSiteSelector()
     }
@@ -139,7 +139,6 @@ class MainViewController: NSViewController {
             email:String,
             kwd:String,
             link:String,
-            autoCheckout:Int,
             quantity:Int,
             size:String)
         case selectTask(index:Int)
@@ -156,7 +155,6 @@ class MainViewController: NSViewController {
                       let emailStr,
                       let kwdStr,
                       let linkStr,
-                      let autoCheckoutInt,
                       let quantityInt,
                       let sizeStr):
             var email = ""
@@ -182,7 +180,6 @@ class MainViewController: NSViewController {
                 return
             }
             let link = linkStr
-            let autoCheckout = (autoCheckoutInt == 1)
             
             let site = siteStr
             guard let siteType = Site.siteDic[site] else {return}
@@ -191,7 +188,6 @@ class MainViewController: NSViewController {
                                       loginEmail: email,
                                       keywords: kwd,
                                       earlyLink: link,
-                                      autoCheckout: autoCheckout,
                                       quantity: quantityInt,
                                       size: sizeNum)
             let newTask = BotTask(target: newTarget)
@@ -279,6 +275,22 @@ extension MainViewController:NSTableViewDelegate, NSTableViewDataSource {
         static let earlyLinkCell = "earlyLinkCellID"
         static let emailCell = "emailCellID"
     }
+    
+    @objc private func tableViewDoubleClicked(_ sender:AnyObject) {
+        let index = taskTableView.clickedRow
+        let clickedTask = tasks[index]
+        let bot = clickedTask.bot
+        guard let url = bot.completeURL
+            else {
+                return
+        }
+        guard let next = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "webViewController")) as? WebViewController
+            else {
+                return
+        }
+        next.url = url
+        self.presentViewControllerAsModalWindow(next)
+    }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
         let taskCount = tasks.count
@@ -364,10 +376,11 @@ extension MainViewController:ShopifyBotDelegate {
         taskTableView.reloadData()
     }
     
-    func productDidCheckedout(id: String) {
+    func productDidCheckedout(id: String,url:URL) {
         let task = tasks.filter{$0.id == id}[0]
         task.status = "Checked out"
         taskTableView.reloadData()
+        
     }
 }
 
