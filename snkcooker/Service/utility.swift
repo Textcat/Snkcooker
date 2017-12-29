@@ -34,6 +34,17 @@ internal func += <K, V> (left: inout [K:V], right: [K:V]) {
     }
 }
 
+extension NSViewController {
+    func nextController(withIdentity id:String) -> NSViewController? {
+        let identifier = NSStoryboard.SceneIdentifier(rawValue: id)
+        guard let next = self.storyboard?.instantiateController(withIdentifier: identifier) as? NSViewController else {
+            return nil
+        }
+
+        return next
+    }
+}
+
 extension Data {
     var html:String {
         return String(describing: NSString(data: self, encoding: String.Encoding.utf8.rawValue))

@@ -280,16 +280,35 @@ extension MainViewController:NSTableViewDelegate, NSTableViewDataSource {
         let index = taskTableView.clickedRow
         let clickedTask = tasks[index]
         let bot = clickedTask.bot
-        guard let url = bot.completeURL
-            else {
+        let status = clickedTask.status
+        if status == "Checked out" {
+            guard let url = bot.completeURL
+                else {
+                    return
+            }
+            let id = "webViewController"
+            
+            guard let next = self.nextController(withIdentity: id) as? WebViewController
+                else {
+                    return
+            }
+            next.url = url
+            self.presentViewControllerAsModalWindow(next)
+            
+        }else if status == "Waiting for selection" {
+            
+            let id = "productsSelectionController"
+            
+            guard let foundProducts = bot.foundProducts,
+                  let next = self.nextController(withIdentity: id) as? ProductsSelectionController else {
                 return
+            }
+            
+            next.products = foundProducts
+            next.bot = bot
+            
+            self.presentViewControllerAsModalWindow(next)
         }
-        guard let next = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "webViewController")) as? WebViewController
-            else {
-                return
-        }
-        next.url = url
-        self.presentViewControllerAsModalWindow(next)
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -351,6 +370,7 @@ extension MainViewController:NSTableViewDelegate, NSTableViewDataSource {
 }
 
 extension MainViewController:ShopifyBotDelegate {
+    
     func productOutOfStock(id: String) {
         let task = tasks.filter{$0.id == id}[0]
         task.status = "Waiting for restock..."
@@ -367,6 +387,13 @@ extension MainViewController:ShopifyBotDelegate {
     func productDidFound(id: String, productName: String) {
         let task = tasks.filter{$0.id == id}[0]
         task.status = "Product found"
+        task.productName = productName
+        taskTableView.reloadData()
+    }
+    
+    func productDidFoundMorethanOne(id: String) {
+        let task = tasks.filter{$0.id == id}[0]
+        task.status = "Waiting for selection"
         taskTableView.reloadData()
     }
     

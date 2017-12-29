@@ -24,6 +24,7 @@ public class ShopifyBot {
     var session:SessionManager?
     var redirectURL:URL?
     var completeURL:URL?
+    var foundProducts:[String:String]?
     
     lazy var postDataManager = PostDataManager()
     
@@ -56,13 +57,13 @@ public class ShopifyBot {
         }
     }
     
-    fileprivate func cop(withKeywords keywords:String) {
+    public func cop(withKeywords keywords:String) {
         delegate?.productWillFound(id: id)
         searchProduct(ofSite: site, byKeywords: keywords)
         
     }
     
-    fileprivate func cop(withProductUrl product_url:String) {
+    public func cop(withProductUrl product_url:String) {
         let step:Step = .StartCop(productURL: product_url)
         guard let values = requestPrepare(step:step) else {return}
         
@@ -327,7 +328,8 @@ extension ShopifyBot {
                     }
                 }else if foundProduct.count > 1 {
                     
-                    
+                    self.foundProducts = foundProduct
+                    self.delegate?.productDidFoundMorethanOne(id: self.id)
                     
                 }else if foundProduct.count == 1,
                     let urlStr = foundProduct.values.first,

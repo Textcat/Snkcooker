@@ -21,8 +21,7 @@ struct BotTarget {
 
 
 
-
-class BotTask:NSCopying {
+final class BotTask:NSCopying {
     public let site:String
     public let size:Double
     public let id:String

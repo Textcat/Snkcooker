@@ -11,10 +11,12 @@ import Foundation
 protocol ShopifyBotDelegate {
     func productWillFound(id:String)
     func productDidFound(id:String, productName:String)
+    func productDidFoundMorethanOne(id:String)
     func productNotFoundYet(id:String)
     func productOutOfStock(id:String)
     func productDidAddedtoCart(id:String)
     func productDidCheckedout(id:String,url:URL)
+    
 }
 
 extension ShopifyBotDelegate {
