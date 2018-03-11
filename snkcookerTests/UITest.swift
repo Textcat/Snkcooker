@@ -2,7 +2,7 @@
 //  UITest.swift
 //  snkcookerTests
 //
-//  Created by 刘业臻 on 2017/12/18.
+//  Created by luiyezheng on 2017/12/18.
 //  Copyright © 2017年 luiyezheng. All rights reserved.
 //
 

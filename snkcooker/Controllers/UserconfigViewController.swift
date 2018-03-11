@@ -2,7 +2,7 @@
 //  UserconfigViewController.swift
 //  snkcooker
 //
-//  Created by 刘业臻 on 2017/12/19.
+//  Created by luiyezheng on 2017/12/19.
 //  Copyright © 2017年 luiyezheng. All rights reserved.
 //
 

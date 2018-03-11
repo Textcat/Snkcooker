@@ -2,7 +2,7 @@
 //  models.swift
 //  snkcooker
 //
-//  Created by 刘业臻 on 2017/12/17.
+//  Created by luiyezheng on 2017/12/17.
 //  Copyright © 2017年 luiyezheng. All rights reserved.
 //
 
@@ -17,9 +17,6 @@ struct BotTarget {
     var quantity:Int
     var size:Double
 }
-
-
-
 
 final class BotTask:NSCopying {
     public let site:String
@@ -38,7 +35,8 @@ final class BotTask:NSCopying {
              .exclucitylife:
             bot = CaptchaRequestShopifyBot(target: target)
         case .bowsandarrows, 
-             .shoegallerymiami:
+             .shoegallerymiami,
+             .a_ma_maniere:
             bot = FlatRateShopifyBot(target: target)
         default:
             bot = ShopifyBot(target: target)
@@ -78,6 +76,7 @@ struct Parser {
             let doc = try HTML(html: content, encoding: .utf8)
             let authObject = doc.xpath(authPath)[0]
             if let authToken = authObject.content {
+                print(authToken)
                 return authToken
             }else {
                 return ""
@@ -93,6 +92,7 @@ struct Parser {
         do {
             let doc = try HTML(html: content, encoding: .utf8)
             let authToken = doc.xpath(authPath)[0].content ?? ""
+            
             let method = doc.xpath(methodPath).filter({$0.content?.lowercased().contains("pick") == false})[0].content ?? ""
             
             return (authToken,method)
